@@ -46,11 +46,11 @@ else
 </h4>
 
 @code {
-    private BlazorApp1.Models.USData[] unitedStates;
+    private USData[] unitedStates;
 
     protected override async Task OnInitializedAsync()
     {
         string endPoint = "https://api.covidtracking.com/v1/us/current.json";
-        unitedStates = await Http.GetFromJsonAsync<BlazorApp1.Models.USData[]>(endPoint);
+        unitedStates = await Http.GetFromJsonAsync<USData[]>(endPoint);
     }
 }

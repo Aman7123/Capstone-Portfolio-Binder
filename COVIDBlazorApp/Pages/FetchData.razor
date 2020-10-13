@@ -48,11 +48,11 @@ else
 }
 
 @code {
-    private BlazorApp1.Models.StateData[] states;
+    private StateData[] states;
 
     protected override async Task OnInitializedAsync()
     {
         string endPoint = "https://api.covidtracking.com/v1/states/current.json";
-        states = await Http.GetFromJsonAsync<BlazorApp1.Models.StateData[]>(endPoint);        
+        states = await Http.GetFromJsonAsync<StateData[]>(endPoint);        
     }
 }
