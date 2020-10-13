@@ -1,0 +1,58 @@
+@page "/fetchdata"
+@inject HttpClient Http
+
+<h1>COVID STATS</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (states == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{    
+<h3>Last Updated ET: Fix this</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>State</th>
+            <th>Pos. Cases</th>
+            <th>Neg. Cases</th>
+            <th>New Cases</th>
+            <th>Curr. Hosp.</th>
+            <th>Curr. ICU</th>
+            <th>Total Deaths</th>
+            <th>New Deaths</th>
+            <th>Prob. Deaths</th>
+            <th>Conf. Deaths</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var state in states)
+        {
+        <tr>
+            <td>@state.state</td>
+            <td>@state.positive</td>
+            <td>@state.negative</td>
+            <td>@state.positiveIncrease</td>
+            <td>@state.hospitalizedCurrently</td>
+            <td>@state.inIcuCurrently</td>
+            <td>@state.death</td>
+            <td>@state.deathIncrease</td>
+            <td>@state.deathProbable</td>
+            <td>@state.deathConfirmed</td>
+        </tr>
+        }        
+    </tbody>
+</table>
+}
+
+@code {
+    private BlazorApp1.Models.StateData[] states;
+
+    protected override async Task OnInitializedAsync()
+    {
+        string endPoint = "https://api.covidtracking.com/v1/states/current.json";
+        states = await Http.GetFromJsonAsync<BlazorApp1.Models.StateData[]>(endPoint);        
+    }
+}

@@ -1,0 +1,56 @@
+@page "/"
+@inject HttpClient Http
+
+<h2><b>Current US COVID Statistics</b></h2>
+
+@if (unitedStates == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>                
+                <th>Pos. Cases</th>
+                <th>Neg. Cases</th>
+                <th>New Cases</th>
+                <th>Curr. Hosp.</th>
+                <th>Curr. ICU</th>
+                <th>Total Deaths</th>
+                <th>New Deaths</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var us in unitedStates)
+            {
+                <tr>                    
+                    <td>@us.positive</td>
+                    <td>@us.negative</td>
+                    <td>@us.positiveIncrease</td>
+                    <td>@us.hospitalizedCurrently</td>
+                    <td>@us.inIcuCurrently</td>
+                    <td>@us.death</td>
+                    <td>@us.deathIncrease</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<h4>
+    <b>Authors: Daniel Carson &amp; Aaron Renner</b>
+</h4>
+<h4>
+    <b>Data Source:</b> <a href="http://www.covidtracking.com">The COVID Tracking Project</a>
+</h4>
+
+@code {
+    private BlazorApp1.Models.USData[] unitedStates;
+
+    protected override async Task OnInitializedAsync()
+    {
+        string endPoint = "https://api.covidtracking.com/v1/us/current.json";
+        unitedStates = await Http.GetFromJsonAsync<BlazorApp1.Models.USData[]>(endPoint);
+    }
+}
