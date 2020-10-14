@@ -4,17 +4,17 @@
 
 <h2><b>Current US COVID Statistics</b></h2>
 
-@if (unitedStates == null)
+@if (historicUS == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    @if (todayDisplay != null && stopDisplay != null)
+    @if (startDate != null && stopDate != null)
     {
         <p>
-            <b>Today: </b>@todayDisplay<br />
-            <b>Last Date: </b>@stopDisplay
+            <b>Start Date: </b>@startDate<br />
+            <b>Stop Date: </b>@stopDate
         </p>
     }
     <table class="table">
@@ -35,8 +35,9 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var us in unitedStates)
+            @for (var i = 0; i < dayAmt; i++)
             {
+                var us = historicUS[i];
                 <tr>
                     <td>@us.displayDate</td>
                     <td>@us.positive</td>
@@ -56,86 +57,84 @@ else
     </table>
     @if (exception.Length > 0)
     {
-        <p>@exception</p>
+        <p><b>ERROR: </b>@exception</p>
     }
     else
     {
-        <p><em>Loaded with no errors :)</em></p>
+        <p>Loaded with no errors :)</p>
     }
+    <h4>
+        <b>Authors: Daniel Carson &amp; Aaron Renner</b>
+    </h4>
+    <h4>
+        <b>Data Source:</b> <a href="http://www.covidtracking.com">The COVID Tracking Project</a>
+    </h4>
 }
 
-<h4>
-    <b>Authors: Daniel Carson &amp; Aaron Renner</b>
-</h4>
-<h4>
-    <b>Data Source:</b> <a href="http://www.covidtracking.com">The COVID Tracking Project</a>
-</h4>
-
 @code {
-    private List<USData> unitedStates;
-    private string todayDisplay, stopDisplay;
-    private DateTime todayDT;
-    private DateTime stopDT;
-    private string endPoint;
+    private const int dayAmt = 10;
+    private USData[] historicUS;
+    private string startDate, stopDate;
     private string exception;
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            string currentUSEndPoint = Configuration["EndPoints:USEndPoints:CurrentUSEndpoint"];
-            string historicUSDateEndPoint = Configuration["EndPoints:USEndPoints:HistoricUSDateEndpoint"];
-            USData[] currentUS = await Http.GetFromJsonAsync<USData[]>(currentUSEndPoint);
-            if (currentUS.Length > 0)
-            {
-                int today = currentUS[0].date;
-                int day = today % 100;
-                int mon = (today / 100) % 100;
-                int year = today / 10000;
-                todayDT = new DateTime(year, mon, day);
-                currentUS[0].dateTime = todayDT;
-                currentUS[0].displayDate = todayDT.ToString().Substring(0, 10);
-                unitedStates = new List<USData>();
-                unitedStates.Add(currentUS[0]);
-                TimeSpan oneDay = new TimeSpan(1, 0, 0, 0, 0);
-                DateTime yesterdayDT = todayDT - oneDay;
-                stopDT = todayDT - (oneDay * 9);
-                todayDisplay = todayDT.ToString("dddd, dd MMMM yyyy");
-                stopDisplay = stopDT.ToString("dddd, dd MMMM yyyy");
-                while (yesterdayDT >= stopDT)
-                {
-                    string yyyy, mm, dd, yyyymmdd;
-                    yyyy = yesterdayDT.Year.ToString();
-                    mm = yesterdayDT.Month.ToString();
-                    dd = yesterdayDT.Day.ToString();
-                    if (mm.Length < 2)
-                    {
-                        mm = "0" + mm;
-                    }
-                    if (dd.Length < 2)
-                    {
-                        dd = "0" + dd;
-                    }
-                    yyyymmdd = yyyy + mm + dd;
-                    endPoint = historicUSDateEndPoint.Replace("YYYYMMDD", yyyymmdd);
-                    USData response = await Http.GetFromJsonAsync<USData>(endPoint);
-                    if (response != null)
-                    {
-                        response.dateTime = yesterdayDT;
-                        response.displayDate = yesterdayDT.ToString().Substring(0, 10);
-                        unitedStates.Add(response);
-                    }
-                    else
-                    {
-                        break;
-                    }
-                    yesterdayDT = yesterdayDT - oneDay;
-                }
-                exception = "";
-            }
+            string historicUSEndPoint = Configuration["EndPoints:USEndPoints:HistoricUSEndpoint"];
+            historicUS = await Http.GetFromJsonAsync<USData[]>(historicUSEndPoint);
+            exception = "";
+            PopulateCustomFields(historicUS);
+            PopulateDates(historicUS);
         }
         catch (Exception ex)
         {
             exception = ex.Message;
         }
+    }
+    private void PopulateCustomFields(USData[] us)
+    {
+        for (int i = 0; i < us.Length; i++)
+        {
+            int date = us[i].date;
+            DateTime dt = GetDTFromInt(date);
+            if (dt != null)
+            {
+                us[i].dateTime = dt;
+                us[i].displayDate = GetStringFromDT(dt);
+            }
+            else
+            {
+                us[i].dateTime = DateTime.Now;
+                us[i].displayDate = "N/A";
+            }
+        }
+    }
+    private void PopulateDates(USData[] us)
+    {
+        if (us.Length >= dayAmt)
+        {
+            startDate = us[0].dateTime.ToString("dddd, dd MMMM yyyy");
+            stopDate = us[(dayAmt - 1)].dateTime.ToString("dddd, dd MMMM yyyy");
+        }
+    }
+    private DateTime GetDTFromInt(int date)
+    {
+        int day = date % 100;
+        int mon = (date / 100) % 100;
+        int year = date / 10000;
+        return new DateTime(year, mon, day); ;
+    }
+    private string GetStringFromDT(DateTime dt)
+    {
+        string s = dt.ToString();
+        if (s.Length >= 10)
+        {
+            s = s.Substring(0, 10);
+        }
+        else
+        {
+            s = "N/A";
+        }
+        return s;
     }
 }
