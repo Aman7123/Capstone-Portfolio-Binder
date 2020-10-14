@@ -1,34 +1,8 @@
 @page "/"
 @inject HttpClient Http
 @inject IConfiguration Configuration
+
 <h2><b>Current US COVID Statistics</b></h2>
-@if (todayDT == null || stopDT == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <p>
-        <b>Today: </b>@todayDT.ToString()<br />
-        <b>Last Date: </b>@stopDT.ToString()
-    </p>
-}
-@if (endPoint == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <p>@endPoint</p>
-}
-@if (exception == null)
-{
-    <p><em>Loaded with no errors :)</em></p>
-}
-else
-{
-    <p>@exception</p>
-}
 
 @if (unitedStates == null)
 {
@@ -36,6 +10,13 @@ else
 }
 else
 {
+    @if (todayDisplay != null && stopDisplay != null)
+    {
+        <p>
+            <b>Today: </b>@todayDisplay<br />
+            <b>Last Date: </b>@stopDisplay
+        </p>
+    }
     <table class="table">
         <thead>
             <tr>
@@ -56,23 +37,31 @@ else
         <tbody>
             @foreach (var us in unitedStates)
             {
-            <tr>
-                <td>@us.date</td>
-                <td>@us.positive</td>
-                <td>@us.negative</td>
-                <td>@us.positiveIncrease</td>
-                <td>@us.negativeIncrease</td>
-                <td>@us.hospitalizedCurrently</td>
-                <td>@us.hospitalizedIncrease</td>
-                <td>@us.hospitalizedCumulative</td>
-                <td>@us.inIcuCurrently</td>
-                <td>@us.inIcuCumulative</td>
-                <td>@us.death</td>
-                <td>@us.deathIncrease</td>
-            </tr>
+                <tr>
+                    <td>@us.displayDate</td>
+                    <td>@us.positive</td>
+                    <td>@us.negative</td>
+                    <td>@us.positiveIncrease</td>
+                    <td>@us.negativeIncrease</td>
+                    <td>@us.hospitalizedCurrently</td>
+                    <td>@us.hospitalizedIncrease</td>
+                    <td>@us.hospitalizedCumulative</td>
+                    <td>@us.inIcuCurrently</td>
+                    <td>@us.inIcuCumulative</td>
+                    <td>@us.death</td>
+                    <td>@us.deathIncrease</td>
+                </tr>
             }
         </tbody>
     </table>
+    @if (exception.Length > 0)
+    {
+        <p>@exception</p>
+    }
+    else
+    {
+        <p><em>Loaded with no errors :)</em></p>
+    }
 }
 
 <h4>
@@ -84,34 +73,34 @@ else
 
 @code {
     private List<USData> unitedStates;
-    private int today;
+    private string todayDisplay, stopDisplay;
     private DateTime todayDT;
     private DateTime stopDT;
     private string endPoint;
     private string exception;
     protected override async Task OnInitializedAsync()
     {
-        string currentUSEndPoint = Configuration["EndPoints:USEndPoints:CurrentUSEndpoint"];
-        string historicUSDateEndPoint = Configuration["EndPoints:USEndPoints:HistoricUSDateEndpoint"];
-        USData[] currentUS;
-        unitedStates = new List<USData>();
-        currentUS = await Http.GetFromJsonAsync<USData[]>(currentUSEndPoint);
-        if (currentUS.Length > 0)
+        try
         {
-            unitedStates.Add(currentUS[0]);
-            //YYYYMMDD
-            today = currentUS[0].date;
-            try
+            string currentUSEndPoint = Configuration["EndPoints:USEndPoints:CurrentUSEndpoint"];
+            string historicUSDateEndPoint = Configuration["EndPoints:USEndPoints:HistoricUSDateEndpoint"];
+            USData[] currentUS = await Http.GetFromJsonAsync<USData[]>(currentUSEndPoint);
+            if (currentUS.Length > 0)
             {
-                int d = today % 100;
-                int m = (today / 100) % 100;
-                int y = today / 10000;
-                todayDT = new DateTime(y, m, d);
-                // ... Days, hours, minutes, seconds, milliseconds.
+                int today = currentUS[0].date;
+                int day = today % 100;
+                int mon = (today / 100) % 100;
+                int year = today / 10000;
+                todayDT = new DateTime(year, mon, day);
+                currentUS[0].dateTime = todayDT;
+                currentUS[0].displayDate = todayDT.ToString().Substring(0, 10);
+                unitedStates = new List<USData>();
+                unitedStates.Add(currentUS[0]);
                 TimeSpan oneDay = new TimeSpan(1, 0, 0, 0, 0);
-                TimeSpan fiveDays = new TimeSpan(5, 0, 0, 0, 0);
-                stopDT = todayDT - fiveDays;
                 DateTime yesterdayDT = todayDT - oneDay;
+                stopDT = todayDT - (oneDay * 9);
+                todayDisplay = todayDT.ToString("dddd, dd MMMM yyyy");
+                stopDisplay = stopDT.ToString("dddd, dd MMMM yyyy");
                 while (yesterdayDT >= stopDT)
                 {
                     string yyyy, mm, dd, yyyymmdd;
@@ -131,6 +120,8 @@ else
                     USData response = await Http.GetFromJsonAsync<USData>(endPoint);
                     if (response != null)
                     {
+                        response.dateTime = yesterdayDT;
+                        response.displayDate = yesterdayDT.ToString().Substring(0, 10);
                         unitedStates.Add(response);
                     }
                     else
@@ -139,12 +130,12 @@ else
                     }
                     yesterdayDT = yesterdayDT - oneDay;
                 }
+                exception = "";
             }
-            catch (Exception ex)
-            {
-                todayDT = DateTime.Now;
-                exception = ex.Message;
-            }
+        }
+        catch (Exception ex)
+        {
+            exception = ex.Message;
         }
     }
 }

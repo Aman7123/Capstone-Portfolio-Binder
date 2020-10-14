@@ -1,8 +1,12 @@
-﻿namespace BlazorApp1.Models
+﻿using System;
+
+namespace BlazorApp1.Models
 {
     public class USData
     {
-        public int date { get; set; }
+        public int date { get; set; }      
+        public DateTime dateTime { get; set; }    
+        public string displayDate { get; set; }
         public int states { get; set; }
         public int? positive { get; set; }
         public int? negative { get; set; }                
