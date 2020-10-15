@@ -4,10 +4,7 @@ namespace BlazorApp1.Models
 {
     public class USData
     {
-        public int date { get; set; }      
-        public DateTime dateTime { get; set; }    
-        public string displayDate { get; set; }
-        public int states { get; set; }
+        public int date { get; set; }                 
         public int? positive { get; set; }
         public int? negative { get; set; }                
         public int? pending { get; set; }
@@ -17,8 +14,7 @@ namespace BlazorApp1.Models
         public int? inIcuCumulative { get; set; }
         public int? onVentilatorCurrently { get; set; }
         public int? onVentilatorCumulative { get; set; }
-        public int? recovered { get; set; }
-        public string dateChecked { get; set; }
+        public int? recovered { get; set; }        
         public int? death { get; set; }
         public int? hospitalized { get; set; }
         public int? totalTestResults { get; set; }
@@ -27,5 +23,9 @@ namespace BlazorApp1.Models
         public int? negativeIncrease { get; set; }
         public int? positiveIncrease { get; set; }
         public int? totalTestResultsIncrease { get; set; }
+        //custom fields
+        public DateTime dateTime { get; set; }
+        public string displayDate { get; set; }
+
     }
 }
