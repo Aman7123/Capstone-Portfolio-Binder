@@ -77,7 +77,8 @@ else
 }
 
 @code {
-    private const int dayAmt = 10;
+    private const string stateCode = "VA";
+    private const int dayAmt = 20;
     private USData[] historicState;
     private string startDate, stopDate;
     private string exception;
@@ -86,11 +87,9 @@ else
     {
         try
         {
-            string historicStateEndpoint = Configuration["EndPoints:StateEndPoints:HistoricStateEndpoint"];            
-            endPoint = historicStateEndpoint.Replace("/SC/", "/WV/");
-            //string historicUSEndPoint = Configuration["EndPoints:USEndPoints:HistoricUSEndpoint"];
+            string historicStateEndpoint = Configuration["EndPoints:StateEndPoints:HistoricStateEndpoint"];
+            endPoint = historicStateEndpoint.Replace("/SC/", ("/" + stateCode + "/"));
             historicState = await Http.GetFromJsonAsync<USData[]>(endPoint);
-            //historicState = await Http.GetFromJsonAsync<USData[]>(HistoricStateEndpoint);
             exception = "";
             PopulateCustomFields(historicState);
             PopulateDates(historicState);
@@ -120,10 +119,15 @@ else
     }
     private void PopulateDates(USData[] us)
     {
-        if (us.Length >= dayAmt)
+        int len = us.Length;
+        if (len >= dayAmt)
         {
             startDate = us[0].dateTime.ToString("dddd, dd MMMM yyyy");
             stopDate = us[(dayAmt - 1)].dateTime.ToString("dddd, dd MMMM yyyy");
+        } else if(len > 0)
+        {
+            startDate = us[0].dateTime.ToString("dddd, dd MMMM yyyy");
+            stopDate = us[(len - 1)].dateTime.ToString("dddd, dd MMMM yyyy");
         }
     }
     private DateTime GetDTFromInt(int date)
@@ -135,15 +139,6 @@ else
     }
     private string GetStringFromDT(DateTime dt)
     {
-        string s = dt.ToString();
-        if (s.Length >= 10)
-        {
-            s = s.Substring(0, 10);
-        }
-        else
-        {
-            s = "N/A";
-        }
-        return s;
+        return dt.ToString("MM/dd/yyyy");
     }
 }

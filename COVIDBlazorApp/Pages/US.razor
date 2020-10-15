@@ -4,6 +4,12 @@
 
 <h2><b>Current US COVID Statistics</b></h2>
 
+@if (endPoint != null)
+{
+    <p>@endPoint</p>
+}
+
+
 @if (historicUS == null)
 {
     <p><em>Loading...</em></p>
@@ -72,15 +78,15 @@ else
 }
 
 @code {
-    private const int dayAmt = 10;
+    private const int dayAmt = 20;
     private USData[] historicUS;
-    private string startDate, stopDate;
-    private string exception;
+    private string startDate, stopDate, exception, endPoint;
     protected override async Task OnInitializedAsync()
     {
         try
         {
             string historicUSEndPoint = Configuration["EndPoints:USEndPoints:HistoricUSEndpoint"];
+            endPoint = historicUSEndPoint;
             historicUS = await Http.GetFromJsonAsync<USData[]>(historicUSEndPoint);
             exception = "";
             PopulateCustomFields(historicUS);
@@ -126,15 +132,6 @@ else
     }
     private string GetStringFromDT(DateTime dt)
     {
-        string s = dt.ToString();
-        if (s.Length >= 10)
-        {
-            s = s.Substring(0, 10);
-        }
-        else
-        {
-            s = "N/A";
-        }
-        return s;
+        return dt.ToString("MM/dd/yyyy");
     }
 }
