@@ -1,31 +1,28 @@
-@page "/statehistory"
+@page "/statescurrent"
 @inject HttpClient Http
 @inject IConfiguration Configuration
 
-<h2><b>Historical State COVID Statistics</b></h2>
+<h2><b>Current States COVID Statistics</b></h2>
 
 @if (endPoint != null)
 {
     <p>@endPoint</p>
 }
 
-@if (historicState == null)
+@if (currentStates == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    @if (startDate != null && stopDate != null)
+    @if (startDate != null)
     {
-        <p>
-            <b>Start Date: </b>@startDate<br />
-            <b>Stop Date: </b>@stopDate
-        </p>
+        <p><b>Start Date: </b>@startDate</p>
     }
     <table class="table">
         <thead>
             <tr>
-                <th>Date</th>
+                <th>State</th>
                 <th>Pos. Cases</th>
                 <th>Neg. Cases</th>
                 <th>New Cases</th>
@@ -40,11 +37,10 @@ else
             </tr>
         </thead>
         <tbody>
-            @for (var i = 0; i < dayAmt; i++)
-            {
-                var us = historicState[i];
+            @foreach (var us in currentStates)
+            {                
                 <tr>
-                    <td>@us.displayDate</td>
+                    <td>@us.state</td>
                     <td>@us.positive</td>
                     <td>@us.negative</td>
                     <td>@us.positiveIncrease</td>
@@ -76,23 +72,20 @@ else
     </h4>
 }
 
-@code {
-    private const string stateCode = "VA";
+@code {    
     private const int dayAmt = 20;
-    private USData[] historicState;
-    private string startDate, stopDate;
-    private string exception;
-    private string endPoint;
+    private USData[] currentStates;
+    private string startDate, exception, endPoint;
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            string historicStateEndpoint = Configuration["EndPoints:State:Historic"];
-            endPoint = historicStateEndpoint.Replace("/SC/", ("/" + stateCode + "/"));
-            historicState = await Http.GetFromJsonAsync<USData[]>(endPoint);
+            string CurrentStatesEndpoint = Configuration["EndPoints:States:Current"];
+            endPoint = CurrentStatesEndpoint;
+            currentStates = await Http.GetFromJsonAsync<USData[]>(endPoint);
             exception = "";
-            PopulateCustomFields(historicState);
-            PopulateDates(historicState);
+            PopulateCustomFields(currentStates);
+            PopulateDates(currentStates);
         }
         catch (Exception ex)
         {
@@ -120,14 +113,9 @@ else
     private void PopulateDates(USData[] us)
     {
         int len = us.Length;
-        if (len >= dayAmt)
+        if (len > 0)
         {
             startDate = us[0].dateTime.ToString("dddd, dd MMMM yyyy");
-            stopDate = us[(dayAmt - 1)].dateTime.ToString("dddd, dd MMMM yyyy");
-        } else if(len > 0)
-        {
-            startDate = us[0].dateTime.ToString("dddd, dd MMMM yyyy");
-            stopDate = us[(len - 1)].dateTime.ToString("dddd, dd MMMM yyyy");
         }
     }
     private DateTime GetDTFromInt(int date)

@@ -85,7 +85,7 @@ else
     {
         try
         {
-            string historicUSEndPoint = Configuration["EndPoints:USEndPoints:HistoricUSEndpoint"];
+            string historicUSEndPoint = Configuration["EndPoints:US:Historic"];
             endPoint = historicUSEndPoint;
             historicUS = await Http.GetFromJsonAsync<USData[]>(historicUSEndPoint);
             exception = "";

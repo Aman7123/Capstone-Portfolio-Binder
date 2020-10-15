@@ -4,7 +4,8 @@ namespace BlazorApp1.Models
 {
     public class USData
     {
-        public int date { get; set; }                 
+        public int date { get; set; }     
+        public string state { get; set; }
         public int? positive { get; set; }
         public int? negative { get; set; }                
         public int? pending { get; set; }
