@@ -20,22 +20,10 @@ else
         <p><b>Start Date: </b>@startDate</p>
     }
     <table class="table">
-        <thead>
-            <tr>
-                <th>State</th>
-                <th>Pos. Cases</th>
-                <th>Neg. Cases</th>
-                <th>New Cases</th>
-                <th>New Neg. Tests</th>
-                <th>Curr. Hosp.</th>
-                <th>New Hosp.</th>
-                <th>Cum. Hosp.</th>
-                <th>Curr. ICU</th>
-                <th>Cum. ICU</th>
-                <th>Total Deaths</th>
-                <th>New Deaths</th>
-            </tr>
-        </thead>
+
+        <!--New Object for the state data-->
+        <TableByState></TableByState>
+
         <tbody>
             @foreach (var us in currentStates)
             {                
