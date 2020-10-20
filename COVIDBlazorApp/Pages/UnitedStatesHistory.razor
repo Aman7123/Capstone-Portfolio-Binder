@@ -23,31 +23,47 @@ else
             <b>Stop Date: </b>@stopDate
         </p>
     }
+
     <table class="table">
 
-        <TableByDate></TableByDate>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Pos. Cases</th>
+                <th>Neg. Cases</th>
+                <th>New Cases</th>
+                <th>New Neg. Tests</th>
+                <th>Curr. Hosp.</th>
+                <th>New Hosp.</th>
+                <th>Cum. Hosp.</th>
+                <th>Curr. ICU</th>
+                <th>Cum. ICU</th>
+                <th>Total Deaths</th>
+                <th>New Deaths</th>
+            </tr>
+        </thead>
 
-        <tbody>
-            @for (var i = 0; i < dayAmt; i++)
-            {
-                var us = historicUS[i];
-                <tr>
-                    <td>@us.displayDate</td>
-                    <td>@us.positive</td>
-                    <td>@us.negative</td>
-                    <td>@us.positiveIncrease</td>
-                    <td>@us.negativeIncrease</td>
-                    <td>@us.hospitalizedCurrently</td>
-                    <td>@us.hospitalizedIncrease</td>
-                    <td>@us.hospitalizedCumulative</td>
-                    <td>@us.inIcuCurrently</td>
-                    <td>@us.inIcuCumulative</td>
-                    <td>@us.death</td>
-                    <td>@us.deathIncrease</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <tbody>
+        @for (var i = 0; i < dayAmt; i++)
+        {
+            var us = historicUS[i];
+            <tr>
+                <td>@us.displayDate</td>
+                <td>@us.positive</td>
+                <td>@us.negative</td>
+                <td>@us.positiveIncrease</td>
+                <td>@us.negativeIncrease</td>
+                <td>@us.hospitalizedCurrently</td>
+                <td>@us.hospitalizedIncrease</td>
+                <td>@us.hospitalizedCumulative</td>
+                <td>@us.inIcuCurrently</td>
+                <td>@us.inIcuCumulative</td>
+                <td>@us.death</td>
+                <td>@us.deathIncrease</td>
+            </tr>
+        }
+    </tbody>
+</table>
     @if (exception.Length > 0)
     {
         <p><b>ERROR: </b>@exception</p>
