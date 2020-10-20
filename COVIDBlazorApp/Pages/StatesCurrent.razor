@@ -62,7 +62,7 @@ else
 
 @code {    
     private const int dayAmt = 20;
-    private USData[] currentStates;
+    private StateData[] currentStates;
     private string startDate, exception, endPoint;
     protected override async Task OnInitializedAsync()
     {
@@ -70,7 +70,7 @@ else
         {
             string CurrentStatesEndpoint = Configuration["EndPoints:States:Current"];
             endPoint = CurrentStatesEndpoint;
-            currentStates = await Http.GetFromJsonAsync<USData[]>(endPoint);
+            currentStates = await Http.GetFromJsonAsync<StateData[]>(endPoint);
             exception = "";
             PopulateCustomFields(currentStates);
             PopulateDates(currentStates);
@@ -80,7 +80,7 @@ else
             exception = ex.Message;
         }
     }
-    private void PopulateCustomFields(USData[] us)
+    private void PopulateCustomFields(StateData[] us)
     {
         for (int i = 0; i < us.Length; i++)
         {
@@ -98,7 +98,7 @@ else
             }
         }
     }
-    private void PopulateDates(USData[] us)
+    private void PopulateDates(StateData[] us)
     {
         int len = us.Length;
         if (len > 0)

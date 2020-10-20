@@ -58,11 +58,10 @@ else
     </h4>
 }
 
-@code {
-
+@code {  
     private const string stateCode = "VA";
     private const int dayAmt = 20;
-    private USData[] historicState;
+    private StateData[] historicState;
     private string startDate, stopDate;
     private string exception;
     private string endPoint;
@@ -72,7 +71,7 @@ else
         {
             string historicStateEndpoint = Configuration["EndPoints:State:Historic"];
             endPoint = historicStateEndpoint.Replace("/SC/", ("/" + stateCode + "/"));
-            historicState = await Http.GetFromJsonAsync<USData[]>(endPoint);
+            historicState = await Http.GetFromJsonAsync<StateData[]>(endPoint);
             exception = "";
             PopulateCustomFields(historicState);
             PopulateDates(historicState);
@@ -82,7 +81,7 @@ else
             exception = ex.Message;
         }
     }
-    private void PopulateCustomFields(USData[] us)
+    private void PopulateCustomFields(StateData[] us)
     {
         for (int i = 0; i < us.Length; i++)
         {
@@ -100,7 +99,7 @@ else
             }
         }
     }
-    private void PopulateDates(USData[] us)
+    private void PopulateDates(StateData[] us)
     {
         int len = us.Length;
         if (len >= dayAmt)
