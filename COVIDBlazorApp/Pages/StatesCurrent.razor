@@ -4,12 +4,22 @@
 
 <h2><b>Current States COVID Statistics</b></h2>
 
+<EditForm Model="@stateForm" OnValidSubmit="ChooseState">
+    <InputText @bind-Value="stateForm.StateCode" />
+    <button type="submit">Submit</button>
+</EditForm>
+
 @if (endPoint != null)
 {
     <p>@endPoint</p>
 }
 
-@if (currentStates == null)
+@if (stateCode != null)
+{
+    <p>@stateCode</p>
+}
+
+@if (displayStates == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -20,26 +30,38 @@ else
         <p><b>Start Date: </b>@startDate</p>
     }
     <table class="table">
-
-        <!--New Object for the state data-->
-        <TableByState></TableByState>
-
+        <thead>
+            <tr>
+                <th>State</th>
+                <th>Pos. Cases</th>
+                <th>Neg. Cases</th>
+                <th>New Cases</th>
+                <th>New Neg. Cases</th>
+                <th>Curr. Hosp.</th>
+                <th>New Hosp.</th>
+                <th>Cum. Hosp.</th>
+                <th>Curr. ICU</th>
+                <th>Cum. ICU</th>
+                <th>Total Deaths</th>
+                <th>New Deaths</th>
+            </tr>
+        </thead>
         <tbody>
-            @foreach (var us in currentStates)
-            {                
+            @foreach (var state in displayStates)
+            {
                 <tr>
-                    <td>@us.state</td>
-                    <td>@us.positive</td>
-                    <td>@us.negative</td>
-                    <td>@us.positiveIncrease</td>
-                    <td>@us.negativeIncrease</td>
-                    <td>@us.hospitalizedCurrently</td>
-                    <td>@us.hospitalizedIncrease</td>
-                    <td>@us.hospitalizedCumulative</td>
-                    <td>@us.inIcuCurrently</td>
-                    <td>@us.inIcuCumulative</td>
-                    <td>@us.death</td>
-                    <td>@us.deathIncrease</td>
+                    <td>@state.state</td>
+                    <td>@state.positive</td>
+                    <td>@state.negative</td>
+                    <td>@state.positiveIncrease</td>
+                    <td>@state.negativeIncrease</td>
+                    <td>@state.hospitalizedCurrently</td>
+                    <td>@state.hospitalizedIncrease</td>
+                    <td>@state.hospitalizedCumulative</td>
+                    <td>@state.inIcuCurrently</td>
+                    <td>@state.inIcuCumulative</td>
+                    <td>@state.death</td>
+                    <td>@state.deathIncrease</td>
                 </tr>
             }
         </tbody>
@@ -60,9 +82,12 @@ else
     </h4>
 }
 
-@code {    
+@code {
+    StateForm stateForm = new StateForm();
+    private string stateCode;
     private const int dayAmt = 20;
     private StateData[] currentStates;
+    private List<StateData> displayStates;
     private string startDate, exception, endPoint;
     protected override async Task OnInitializedAsync()
     {
@@ -74,18 +99,33 @@ else
             exception = "";
             PopulateCustomFields(currentStates);
             PopulateDates(currentStates);
+            PopulateDisplay(currentStates);
         }
         catch (Exception ex)
         {
             exception = ex.Message;
         }
     }
+    private void PopulateDisplay(StateData[] states)
+    {
+        displayStates = new List<StateData>();
+        foreach(var state in states)
+        {
+            displayStates.Add(state);
+        }
+    }
+    private void PopulateDisplay(StateData state)
+    {
+        displayStates = new List<StateData>();
+        displayStates.Add(state);
+    }
     private void PopulateCustomFields(StateData[] us)
     {
         for (int i = 0; i < us.Length; i++)
         {
             int date = us[i].date;
-            DateTime dt = GetDTFromInt(date);
+            string lastUpdateET = us[i].lastUpdateEt;
+            DateTime dt = DateTime.Parse(lastUpdateET); //GetDTFromInt(date);
             if (dt != null)
             {
                 us[i].dateTime = dt;
@@ -116,5 +156,27 @@ else
     private string GetStringFromDT(DateTime dt)
     {
         return dt.ToString("MM/dd/yyyy");
+    }
+    private StateData GetSingleState(string stateCode)
+    {
+        foreach(var state in currentStates)
+        {
+            if (state.state.Equals(stateCode))
+            {
+                return state;
+            }
+        }
+        return null;
+    }
+    private void ChooseState()
+    {
+        stateCode = stateForm.StateCode;
+        stateCode = stateCode.ToUpper();
+        StateData sd = GetSingleState(stateCode);
+        if(sd != null)
+        {
+            PopulateDisplay(sd);
+        }
+        stateForm = new StateForm();
     }
 }
