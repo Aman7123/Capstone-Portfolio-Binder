@@ -20,13 +20,6 @@ else
         <button class="btn btn-outline-primary" style="margin-top:10px; margin-bottom:10px;" type="submit">Submit</button>
     </EditForm>
 
-    @if (startDate != null && stopDate != null)
-    {
-        <p>
-            <b>Start Date: </b>@startDate<br />
-            <b>Stop Date: </b>@stopDate
-        </p>
-    }
     <table class="table sticky">
         <thead>
             <tr>
@@ -86,7 +79,6 @@ else
     private const int dayAmt = 10;
     private StateData[] historicState;
     private List<StateData> displayData;
-    private string startDate, stopDate;
     private string exception;
     private string endPoint;
     protected override async Task OnInitializedAsync()
