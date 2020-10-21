@@ -4,11 +4,6 @@
 
 <h2><b>Current States COVID Statistics</b></h2>
 
-@if (stateCode != null)
-{
-    <p>@stateCode</p>
-}
-
 @if (displayStates == null)
 {
     <p><em>Loading...</em></p>
@@ -180,6 +175,6 @@ else
         {
             PopulateDisplay(currentStates);
         }
-        stateForm = new StateForm();
+        //stateForm = new StateForm();
     }
 }
