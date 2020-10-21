@@ -2,28 +2,21 @@
 @inject HttpClient Http
 @inject IConfiguration Configuration
 
-<h2><b>Current US COVID Statistics</b></h2>
-
-@if (endPoint != null)
-{
-    <p>@endPoint</p>
-}
-
+<h2><b>Historical US COVID Statistics</b></h2>
 
 @if (historicUS == null)
 {
     <p><em>Loading...</em></p>
 }
 else
-{
-    @if (startDate != null && stopDate != null)
-    {
-        <p>
-            <b>Start Date: </b>@startDate<br />
-            <b>Stop Date: </b>@stopDate
-        </p>
-    }
-
+{    
+    <EditForm Model="@usForm" OnValidSubmit="UpdateTimeLine">
+            <b><label for="startDate">Start Date</label></b><br />
+            <InputDate id="startDate" @bind-Value="usForm.StartDate" /><br />
+            <b><label for="stopDate" style="padding-top:10px;">Stop Date</label></b><br />
+            <InputDate id="stopDate" @bind-Value="usForm.StopDate" /><br />
+            <button class="btn btn-outline-primary" style="margin-top:10px; margin-bottom:10px;" type="submit">Submit</button>
+    </EditForm>   
     <table class="table sticky">
 
         <thead>
@@ -43,27 +36,26 @@ else
             </tr>
         </thead>
 
-    <tbody>
-        @for (var i = 0; i < dayAmt; i++)
-        {
-            var us = historicUS[i];
-            <tr>
-                <td>@us.displayDate</td>
-                <td>@us.positive</td>
-                <td>@us.negative</td>
-                <td>@us.positiveIncrease</td>
-                <td>@us.negativeIncrease</td>
-                <td>@us.hospitalizedCurrently</td>
-                <td>@us.hospitalizedIncrease</td>
-                <td>@us.hospitalizedCumulative</td>
-                <td>@us.inIcuCurrently</td>
-                <td>@us.inIcuCumulative</td>
-                <td>@us.death</td>
-                <td>@us.deathIncrease</td>
-            </tr>
-        }
-    </tbody>
-</table>
+        <tbody>
+            @foreach (var us in displayData)
+            {                
+                <tr>
+                    <td>@us.displayDate</td>
+                    <td>@us.positive</td>
+                    <td>@us.negative</td>
+                    <td>@us.positiveIncrease</td>
+                    <td>@us.negativeIncrease</td>
+                    <td>@us.hospitalizedCurrently</td>
+                    <td>@us.hospitalizedIncrease</td>
+                    <td>@us.hospitalizedCumulative</td>
+                    <td>@us.inIcuCurrently</td>
+                    <td>@us.inIcuCumulative</td>
+                    <td>@us.death</td>
+                    <td>@us.deathIncrease</td>
+                </tr>
+            }
+        </tbody>
+    </table>
     @if (exception.Length > 0)
     {
         <p><b>ERROR: </b>@exception</p>
@@ -81,9 +73,12 @@ else
 }
 
 @code {
-    private const int dayAmt = 20;
+    private USForm usForm = new USForm();
+    private const int dayAmt = 10;
     private USData[] historicUS;
-    private string startDate, stopDate, exception, endPoint;
+    private List<USData> displayData;
+    private DateTime minDate, maxDate;
+    private string exception, endPoint; //startDate, stopDate, 
     protected override async Task OnInitializedAsync()
     {
         try
@@ -94,20 +89,55 @@ else
             exception = "";
             PopulateCustomFields(historicUS);
             PopulateDates(historicUS);
+            PopulateDisplay(historicUS);
         }
         catch (Exception ex)
         {
             exception = ex.Message;
         }
     }
+    private void PopulateDisplay(USData[] us)
+    {
+        displayData = new List<USData>();
+        for(int i = 0; i < dayAmt; i++)
+        {
+            USData data = us[i];
+            displayData.Add(data);
+        }
+    }
+    private void PopulateDisplay()
+    {
+        displayData = new List<USData>();
+        DateTime start = usForm.StartDate;
+        DateTime stop = usForm.StopDate;
+        for (int i = 0; i < historicUS.Length; i++)
+        {
+            USData data = historicUS[i];
+            DateTime date = data.dateTime;
+            if (date <= stop && date >= start)
+            {
+                displayData.Add(data);
+            }
+        }
+    }
     private void PopulateCustomFields(USData[] us)
     {
+        minDate = DateTime.MaxValue;
+        maxDate = DateTime.MinValue;
         for (int i = 0; i < us.Length; i++)
         {
             int date = us[i].date;
             DateTime dt = GetDTFromInt(date);
             if (dt != null)
             {
+                if(dt < minDate)
+                {
+                    minDate = dt;
+                }
+                if(dt > maxDate)
+                {
+                    maxDate = dt;
+                }
                 us[i].dateTime = dt;
                 us[i].displayDate = GetStringFromDT(dt);
             }
@@ -122,8 +152,8 @@ else
     {
         if (us.Length >= dayAmt)
         {
-            startDate = us[0].dateTime.ToString("dddd, dd MMMM yyyy");
-            stopDate = us[(dayAmt - 1)].dateTime.ToString("dddd, dd MMMM yyyy");
+            usForm.StartDate = us[(dayAmt - 1)].dateTime;
+            usForm.StopDate = us[0].dateTime;
         }
     }
     private DateTime GetDTFromInt(int date)
@@ -136,5 +166,9 @@ else
     private string GetStringFromDT(DateTime dt)
     {
         return dt.ToString("MM/dd/yyyy");
+    }
+    private void UpdateTimeLine()
+    {
+        PopulateDisplay();
     }
 }

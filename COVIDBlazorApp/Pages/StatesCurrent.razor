@@ -4,17 +4,6 @@
 
 <h2><b>Current States COVID Statistics</b></h2>
 
-<EditForm class="form-inline my-2" Model="@stateForm" OnValidSubmit="ChooseState">
-    <b><label for="stateCode">State Code</label></b>
-    <InputText class="form-control mx-2" id="stateCode" @bind-Value="stateForm.StateCode" />
-    <button class="btn btn-outline-primary" type="submit">Submit</button>
-</EditForm>
-
-@if (endPoint != null)
-{
-    <p>@endPoint</p>
-}
-
 @if (stateCode != null)
 {
     <p>@stateCode</p>
@@ -26,9 +15,15 @@
 }
 else
 {
+    <EditForm class="form-inline my-2" Model="@stateForm" OnValidSubmit="ChooseState">
+        <b><label for="stateCode">State Code</label></b>
+        <InputText class="form-control mx-2" id="stateCode" @bind-Value="stateForm.StateCode" />
+        <button class="btn btn-outline-primary" type="submit">Submit</button>
+    </EditForm>
+
     @if (startDate != null)
     {
-        <p><b>Start Date: </b>@startDate</p>
+        <p><b>Date: </b>@startDate</p>
     }
     <table class="table sticky">
         <thead>
@@ -110,9 +105,9 @@ else
     private void PopulateDisplay(StateData[] states)
     {
         displayStates = new List<StateData>();
-        foreach(var state in states)
+        foreach (var state in states)
         {
-            if(!state.state.Equals("VI") && !state.state.Equals("AS")) //exclude virgin islands & American Samoa
+            if (!state.state.Equals("VI") && !state.state.Equals("AS")) //exclude virgin islands & American Samoa
             {
                 displayStates.Add(state);
             }
@@ -163,7 +158,7 @@ else
     }
     private StateData GetSingleState(string stateCode)
     {
-        foreach(var state in currentStates)
+        foreach (var state in currentStates)
         {
             if (state.state.Equals(stateCode))
             {
@@ -177,10 +172,11 @@ else
         stateCode = stateForm.StateCode;
         stateCode = stateCode.ToUpper();
         StateData sd = GetSingleState(stateCode);
-        if(sd != null)
+        if (sd != null)
         {
             PopulateDisplay(sd);
-        } else if (stateCode.Equals("ALL"))
+        }
+        else if (stateCode.Equals("ALL"))
         {
             PopulateDisplay(currentStates);
         }
