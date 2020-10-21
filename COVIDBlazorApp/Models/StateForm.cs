@@ -7,9 +7,8 @@ namespace BlazorApp1.Models
 {
     public class StateForm
     {
-        public string StateCode
-        {
-            get;set;
-        }
+        public string StateCode { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime StopDate { get; set; }
     }
 }

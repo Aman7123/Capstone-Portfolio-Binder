@@ -4,17 +4,22 @@
 
 <h2><b>Historical State COVID Statistics</b></h2>
 
-@if (endPoint != null)
-{
-    <p>@endPoint</p>
-}
-
 @if (historicState == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
+    <EditForm Model="@stateForm" OnValidSubmit="UpdateParameters">
+        <b><label for="stateCode">State Code</label></b><br />
+        <InputText id="stateCode" @bind-Value="stateForm.StateCode" /><br />
+        <b><label for="startDate" style="margin-top: 10px;">Start Date</label></b><br />
+        <InputDate id="startDate" @bind-Value="stateForm.StartDate" /><br />
+        <b><label for="stopDate" style="margin-top: 10px;">Stop Date</label></b><br />
+        <InputDate id="stopDate" @bind-Value="stateForm.StopDate" /><br />
+        <button class="btn btn-outline-primary" style="margin-top:10px; margin-bottom:10px;" type="submit">Submit</button>
+    </EditForm>
+
     @if (startDate != null && stopDate != null)
     {
         <p>
@@ -40,9 +45,8 @@ else
             </tr>
         </thead>
         <tbody>
-            @for (var i = 0; i < dayAmt; i++)
+            @foreach (var state in displayData)
             {
-                var state = historicState[i];
                 <tr>
                     <td>@state.displayDate</td>
                     <td>@state.positive</td>
@@ -77,59 +81,84 @@ else
 }
 
 @code {
-    private const string stateCode = "VA";
-    private const int dayAmt = 100;
+    private StateForm stateForm = new StateForm();
+    private string stateCode = "VA";
+    private const int dayAmt = 10;
     private StateData[] historicState;
+    private List<StateData> displayData;
     private string startDate, stopDate;
     private string exception;
     private string endPoint;
     protected override async Task OnInitializedAsync()
     {
+        await LoadData(stateCode);
+        PopulateDisplay(historicState);
+        PopulateForm(historicState);
+    }
+    private async Task LoadData(string stateCode)
+    {
         try
         {
             string historicStateEndpoint = Configuration["EndPoints:State:Historic"];
-            endPoint = historicStateEndpoint.Replace("/SC/", ("/" + stateCode + "/"));
+            endPoint = historicStateEndpoint.Replace("{State}", stateCode);
             historicState = await Http.GetFromJsonAsync<StateData[]>(endPoint);
-            exception = "";
             PopulateCustomFields(historicState);
-            PopulateDates(historicState);
+            exception = "";
         }
         catch (Exception ex)
         {
             exception = ex.Message;
         }
     }
-    private void PopulateCustomFields(StateData[] us)
+    private void PopulateDisplay(StateData[] state)
     {
-        for (int i = 0; i < us.Length; i++)
+        displayData = new List<StateData>();
+        for (int i = 0; i < dayAmt; i++)
         {
-            int date = us[i].date;
-            string lastUpdateET = us[i].lastUpdateEt;
-            DateTime dt = DateTime.Parse(lastUpdateET); //GetDTFromInt(date);
-            if (dt != null)
+            StateData data = state[i];
+            displayData.Add(data);
+        }
+    }
+    private void PopulateDisplay(StateData[] state, DateTime start, DateTime stop)
+    {
+        displayData = new List<StateData>();
+        for (int i = 0; i < state.Length; i++)
+        {
+            StateData data = state[i];
+            DateTime date = data.dateTime;
+            if (date <= stop && date >= start)
             {
-                us[i].dateTime = dt;
-                us[i].displayDate = GetStringFromDT(dt);
-            }
-            else
-            {
-                us[i].dateTime = DateTime.Now;
-                us[i].displayDate = "N/A";
+                displayData.Add(data);
             }
         }
     }
-    private void PopulateDates(StateData[] us)
+    private void PopulateCustomFields(StateData[] state)
     {
-        int len = us.Length;
+        for (int i = 0; i < state.Length; i++)
+        {
+            int date = state[i].date;
+            string lastUpdateET = state[i].lastUpdateEt;
+            DateTime dt = GetDTFromInt(date);
+            if (dt != null)
+            {
+                state[i].dateTime = dt;
+                state[i].displayDate = GetStringFromDT(dt);
+            }
+            else
+            {
+                state[i].dateTime = DateTime.Now;
+                state[i].displayDate = "N/A";
+            }
+        }
+    }
+    private void PopulateForm(StateData[] state)
+    {
+        int len = state.Length;
         if (len >= dayAmt)
         {
-            startDate = us[0].dateTime.ToString("dddd, dd MMMM yyyy");
-            stopDate = us[(dayAmt - 1)].dateTime.ToString("dddd, dd MMMM yyyy");
-        }
-        else if (len > 0)
-        {
-            startDate = us[0].dateTime.ToString("dddd, dd MMMM yyyy");
-            stopDate = us[(len - 1)].dateTime.ToString("dddd, dd MMMM yyyy");
+            stateForm.StartDate = state[(dayAmt - 1)].dateTime;
+            stateForm.StopDate = state[0].dateTime;
+            stateForm.StateCode = stateCode;
         }
     }
     private DateTime GetDTFromInt(int date)
@@ -142,5 +171,14 @@ else
     private string GetStringFromDT(DateTime dt)
     {
         return dt.ToString("MM/dd/yyyy");
+    }
+    private async Task UpdateParameters()
+    {
+        if (!stateCode.Equals(stateForm.StateCode))
+        {
+            stateCode = stateForm.StateCode;
+            await LoadData(stateCode);
+        }
+        PopulateDisplay(historicState, stateForm.StartDate, stateForm.StopDate);
     }
 }
