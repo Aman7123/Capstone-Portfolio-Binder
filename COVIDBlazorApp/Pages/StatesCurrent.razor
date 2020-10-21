@@ -4,10 +4,10 @@
 
 <h2><b>Current States COVID Statistics</b></h2>
 
-<EditForm Model="@stateForm" OnValidSubmit="ChooseState">
-    <b><label for="stateCode">State</label></b>
-    <InputText id="stateCode" @bind-Value="stateForm.StateCode" />
-    <button type="submit">Submit</button>
+<EditForm class="form-inline my-2" Model="@stateForm" OnValidSubmit="ChooseState">
+    <b><label for="stateCode">State Code</label></b>
+    <InputText class="form-control mx-2" id="stateCode" @bind-Value="stateForm.StateCode" />
+    <button class="btn btn-outline-primary" type="submit">Submit</button>
 </EditForm>
 
 @if (endPoint != null)
