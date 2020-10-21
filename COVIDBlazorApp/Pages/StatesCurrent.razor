@@ -5,7 +5,8 @@
 <h2><b>Current States COVID Statistics</b></h2>
 
 <EditForm Model="@stateForm" OnValidSubmit="ChooseState">
-    <InputText @bind-Value="stateForm.StateCode" />
+    <b><label for="stateCode">State</label></b>
+    <InputText id="stateCode" @bind-Value="stateForm.StateCode" />
     <button type="submit">Submit</button>
 </EditForm>
 
@@ -29,7 +30,7 @@ else
     {
         <p><b>Start Date: </b>@startDate</p>
     }
-    <table class="table">
+    <table class="table sticky">
         <thead>
             <tr>
                 <th>State</th>
@@ -111,7 +112,10 @@ else
         displayStates = new List<StateData>();
         foreach(var state in states)
         {
-            displayStates.Add(state);
+            if(!state.state.Equals("VI") && !state.state.Equals("AS")) //exclude virgin islands & American Samoa
+            {
+                displayStates.Add(state);
+            }
         }
     }
     private void PopulateDisplay(StateData state)
@@ -176,6 +180,9 @@ else
         if(sd != null)
         {
             PopulateDisplay(sd);
+        } else if (stateCode.Equals("ALL"))
+        {
+            PopulateDisplay(currentStates);
         }
         stateForm = new StateForm();
     }
