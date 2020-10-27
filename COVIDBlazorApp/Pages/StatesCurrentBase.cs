@@ -13,6 +13,7 @@ namespace BlazorApp1.Pages
 {
     public class StatesCurrentBase : ComponentBase
     {
+        private COVIDRestClient restClient = new COVIDRestClient();
         protected StateForm stateForm = new StateForm();
         protected string stateCode;
         protected StateData[] currentStates;
@@ -22,10 +23,7 @@ namespace BlazorApp1.Pages
         {
             try
             {
-                string CurrentStatesEndpoint = "https://api.covidtracking.com/v1/states/current.json";
-                endPoint = CurrentStatesEndpoint;
-                HttpClient httpClient = new HttpClient();
-                currentStates = await httpClient.GetFromJsonAsync<StateData[]>(endPoint);
+                currentStates = await restClient.GetCurrentStates();
                 exception = "";
                 PopulateCustomFields(currentStates);
                 PopulateDates(currentStates);

@@ -57,14 +57,6 @@ else
             }
         </tbody>
     </table>
-    @if (exception.Length > 0)
-    {
-        <p><b>ERROR: </b>@exception</p>
-    }
-    else
-    {
-        <p>Loaded with no errors :)</p>
-    }
     <h4>
         <b>Authors: Daniel Carson &amp; Aaron Renner</b>
     </h4>
@@ -74,13 +66,13 @@ else
 }
 
 @code {
+    private COVIDRestClient restClient = new COVIDRestClient();
     private StateForm stateForm = new StateForm();
     private string stateCode = "VA";
     private const int dayAmt = 10;
     private StateData[] historicState;
     private List<StateData> displayData;
-    private string exception;
-    private string endPoint;
+    private string exception;    
     protected override async Task OnInitializedAsync()
     {
         await LoadData(stateCode);
@@ -91,9 +83,7 @@ else
     {
         try
         {
-            string historicStateEndpoint = Configuration["EndPoints:State:Historic"];
-            endPoint = historicStateEndpoint.Replace("{State}", stateCode);
-            historicState = await Http.GetFromJsonAsync<StateData[]>(endPoint);
+            historicState = await restClient.GetHistoricState(stateCode);
             PopulateCustomFields(historicState);
             exception = "";
         }
