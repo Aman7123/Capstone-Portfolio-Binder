@@ -13,12 +13,12 @@ else
         <InputSelect class="custom-select my-1 mr-sm-2" id="stateCode" @bind-Value="@stateForm.StateCode">
             <option value="All">All</option>
             @foreach (var state in stateMetaData)
-                {
+            {
                 @if (!state.state.Equals("AS") && !state.state.Equals("MP") && !state.state.Equals("VI"))
-                    {
+                {
                     <option value="@state.state">@state.name</option>
-                    }
                 }
+            }
         </InputSelect>
         <button class="btn btn-outline-primary my-1" type="submit">Submit</button>
     </EditForm>

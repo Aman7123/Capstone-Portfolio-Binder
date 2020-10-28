@@ -14,10 +14,12 @@ namespace BlazorApp1.Pages
         private string stateCode = "VA";
         private const int dayAmt = 10;
         private StateData[] historicState;
+        protected List<StateMetaData> stateMetaData { get; set; }
         protected StateForm stateForm = new StateForm();
         protected List<StateData> displayData;      
         protected override async Task OnInitializedAsync()
         {
+            stateMetaData = await restClient.GetStateMetaData();
             await LoadData(stateCode);
             PopulateDisplay(historicState);
             PopulateForm(historicState);

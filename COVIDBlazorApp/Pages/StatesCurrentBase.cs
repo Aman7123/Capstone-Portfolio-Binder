@@ -1,8 +1,6 @@
 ﻿using BlazorApp1.Models;
 using BlazorApp1.Services;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
