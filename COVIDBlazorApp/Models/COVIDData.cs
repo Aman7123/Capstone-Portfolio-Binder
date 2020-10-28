@@ -28,5 +28,22 @@ namespace BlazorApp1.Models
         //custom fields
         public DateTime dateTime { get; set; }
         public string displayDate { get; set; }
+        public void PopulateCustomFields()
+        {
+            DateTime dt = GetDT();
+            dateTime = dt;
+            displayDate = GetStringFromDT();
+        }
+        private DateTime GetDT()
+        {
+            int day = date % 100;
+            int mon = (date / 100) % 100;
+            int year = date / 10000;
+            return new DateTime(year, mon, day); 
+        }
+        private string GetStringFromDT()
+        {
+            return dateTime.ToString("MM/dd/yyyy");
+        }
     }
 }

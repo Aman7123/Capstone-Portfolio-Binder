@@ -1,10 +1,9 @@
 @page "/us-history"
-@inject HttpClient Http
-@inject IConfiguration Configuration
+@inherits UnitedStatesHistoryBase
 
 <h2><b>Historical US COVID Statistics</b></h2>
 
-@if (historicUS == null)
+@if (displayData == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -56,119 +55,10 @@ else
             }
         </tbody>
     </table>
-    @if (exception.Length > 0)
-    {
-        <p><b>ERROR: </b>@exception</p>
-    }
-    else
-    {
-        <p>Loaded with no errors :)</p>
-    }
     <h4>
         <b>Authors: Daniel Carson &amp; Aaron Renner</b>
     </h4>
     <h4>
         <b>Data Source:</b> <a href="http://www.covidtracking.com">The COVID Tracking Project</a>
     </h4>
-}
-
-@code {
-    private USForm usForm = new USForm();
-    private const int dayAmt = 10;
-    private USData[] historicUS;
-    private List<USData> displayData;
-    private DateTime minDate, maxDate;
-    private string exception, endPoint; //startDate, stopDate, 
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            string historicUSEndPoint = Configuration["EndPoints:US:Historic"];
-            endPoint = historicUSEndPoint;
-            historicUS = await Http.GetFromJsonAsync<USData[]>(historicUSEndPoint);
-            exception = "";
-            PopulateCustomFields(historicUS);
-            PopulateDates(historicUS);
-            PopulateDisplay(historicUS);
-        }
-        catch (Exception ex)
-        {
-            exception = ex.Message;
-        }
-    }
-    private void PopulateDisplay(USData[] us)
-    {
-        displayData = new List<USData>();
-        for(int i = 0; i < dayAmt; i++)
-        {
-            USData data = us[i];
-            displayData.Add(data);
-        }
-    }
-    private void PopulateDisplay()
-    {
-        displayData = new List<USData>();
-        DateTime start = usForm.StartDate;
-        DateTime stop = usForm.StopDate;
-        for (int i = 0; i < historicUS.Length; i++)
-        {
-            USData data = historicUS[i];
-            DateTime date = data.dateTime;
-            if (date <= stop && date >= start)
-            {
-                displayData.Add(data);
-            }
-        }
-    }
-    private void PopulateCustomFields(USData[] us)
-    {
-        minDate = DateTime.MaxValue;
-        maxDate = DateTime.MinValue;
-        for (int i = 0; i < us.Length; i++)
-        {
-            int date = us[i].date;
-            DateTime dt = GetDTFromInt(date);
-            if (dt != null)
-            {
-                if(dt < minDate)
-                {
-                    minDate = dt;
-                }
-                if(dt > maxDate)
-                {
-                    maxDate = dt;
-                }
-                us[i].dateTime = dt;
-                us[i].displayDate = GetStringFromDT(dt);
-            }
-            else
-            {
-                us[i].dateTime = DateTime.Now;
-                us[i].displayDate = "N/A";
-            }
-        }
-    }
-    private void PopulateDates(USData[] us)
-    {
-        if (us.Length >= dayAmt)
-        {
-            usForm.StartDate = us[(dayAmt - 1)].dateTime;
-            usForm.StopDate = us[0].dateTime;
-        }
-    }
-    private DateTime GetDTFromInt(int date)
-    {
-        int day = date % 100;
-        int mon = (date / 100) % 100;
-        int year = date / 10000;
-        return new DateTime(year, mon, day); ;
-    }
-    private string GetStringFromDT(DateTime dt)
-    {
-        return dt.ToString("MM/dd/yyyy");
-    }
-    private void UpdateTimeLine()
-    {
-        PopulateDisplay();
-    }
 }

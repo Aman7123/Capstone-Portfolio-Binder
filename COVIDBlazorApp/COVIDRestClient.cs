@@ -20,7 +20,8 @@ namespace BlazorApp1
         {
             StateData[] states;
             string endpoint = "https://api.covidtracking.com/v1/states/current.json";
-            states =  await httpClient.GetFromJsonAsync<StateData[]>(endpoint);
+            states = await httpClient.GetFromJsonAsync<StateData[]>(endpoint);
+            if(states != null) { PopulateCustomFields(states); }
             return states;                                
         }
         public async Task<StateData[]> GetHistoricState(string state)
@@ -28,7 +29,23 @@ namespace BlazorApp1
             StateData[] states;
             string endpoint = String.Format("https://api.covidtracking.com/v1/states/{0}/daily.json",state);            
             states = await httpClient.GetFromJsonAsync<StateData[]>(endpoint);
+            if (states != null) { PopulateCustomFields(states); }
             return states;            
         }        
+        public async Task<USData[]> GetHistoricUnitedStates()
+        {
+            USData[] unitedStates;
+            string endpoint = "https://api.covidtracking.com/v1/us/daily.json";
+            unitedStates = await httpClient.GetFromJsonAsync<USData[]>(endpoint);
+            if (unitedStates != null) { PopulateCustomFields(unitedStates); }
+            return unitedStates;
+        }
+        public void PopulateCustomFields(COVIDData[] dataSet)
+        {
+            foreach(var data in dataSet)
+            {
+                data.PopulateCustomFields();
+            }
+        }
     }
 }
