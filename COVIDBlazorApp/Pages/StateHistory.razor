@@ -9,31 +9,31 @@
 }
 else
 {
-<EditForm Model="@stateForm" OnValidSubmit="UpdateParameters">
-    <div class="form-group">
+    <EditForm Model="@stateForm" OnValidSubmit="UpdateParameters">
         <div class="form-group">
-            <b><label for="stateCode">State</label></b><br />
-            <InputSelect class="form-control-sm" id="stateCode" @bind-Value="@stateForm.StateCode">
-                @foreach (var state in stateMetaData)
-                    {
-                    @if (!state.state.Equals("AS") && !state.state.Equals("MP") && !state.state.Equals("VI"))
+            <div class="form-group">
+                <b><label for="stateCode">State</label></b><br />
+                <InputSelect class="form-control-sm" id="stateCode" @bind-Value="@stateForm.StateCode">
+                    @foreach (var state in stateMetaData)
                         {
-                        <option value="@state.state">@state.name</option>
+                        @if (!state.state.Equals("AS") && !state.state.Equals("MP") && !state.state.Equals("VI"))
+                            {
+                            <option value="@state.state">@state.name</option>
+                            }
                         }
-                    }
-            </InputSelect>
+                </InputSelect>
+            </div>
+            <div class="form-group">
+                <b><label for="startDate">Start Date</label></b><br />
+                <InputDate class="form-control-sm" id="startDate" @bind-Value="stateForm.StartDate" /><br />
+            </div>
+            <div class="form-group">
+                <b><label for="stopDate">Stop Date</label></b><br />
+                <InputDate class="form-control-sm" id="stopDate" @bind-Value="stateForm.StopDate" /><br />
+            </div>
+            <button class="btn btn-outline-primary" type="submit">Submit</button>
         </div>
-        <div class="form-group">
-            <b><label for="startDate">Start Date</label></b><br />
-            <InputDate class="form-control-sm" id="startDate" @bind-Value="stateForm.StartDate" /><br />
-        </div>
-        <div class="form-group">
-            <b><label for="stopDate">Stop Date</label></b><br />
-            <InputDate class="form-control-sm" id="stopDate" @bind-Value="stateForm.StopDate" /><br />
-        </div>
-        <button class="btn btn-outline-primary" type="submit">Submit</button>
-    </div>
-</EditForm>
+    </EditForm>
 
     <table class="table sticky">
         <thead>
