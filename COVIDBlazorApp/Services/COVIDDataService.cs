@@ -43,7 +43,7 @@ namespace BlazorApp1.Services
             if (unitedStates != null) { PopulateCustomFields(unitedStates); }
             return unitedStates;
         }
-        public void PopulateCustomFields(COVIDData[] dataSet)
+        private void PopulateCustomFields(COVIDData[] dataSet)
         {
             foreach (var data in dataSet)
             {
