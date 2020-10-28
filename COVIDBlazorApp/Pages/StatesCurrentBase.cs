@@ -13,11 +13,14 @@ namespace BlazorApp1.Pages
         [Inject]
         private ICOVIDDataService restClient { get; set; } //COVIDDataService        
         private StateData[] currentStates;
-        protected StateForm stateForm = new StateForm();        
-        protected List<StateData> displayStates;
+        protected List<StateMetaData> stateMetaData { get; set; }          
+        protected List<StateData> displayStates { get; set; }
+        protected StateForm stateForm = new StateForm();
         protected string todaysDate;
         protected override async Task OnInitializedAsync()
         {
+            stateForm.StateCode = "All";
+            stateMetaData = await restClient.GetStateMetaData();
             currentStates = await restClient.GetCurrentStates();
             if(currentStates.Length > 0)
             {

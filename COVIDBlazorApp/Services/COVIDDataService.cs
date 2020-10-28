@@ -18,6 +18,11 @@ namespace BlazorApp1.Services
             this.httpClient = httpClient;            
             Configuration = config;
         }
+        public async Task<List<StateMetaData>> GetStateMetaData()
+        {            
+            string endpoint = Configuration["EndPoints:States:Metadata"];
+            return await httpClient.GetFromJsonAsync<List<StateMetaData>>(endpoint);                      
+        }
         public async Task<StateData[]> GetCurrentStates()
         {
             StateData[] states;
@@ -43,6 +48,7 @@ namespace BlazorApp1.Services
             if (unitedStates != null) { PopulateCustomFields(unitedStates); }
             return unitedStates;
         }
+
         private void PopulateCustomFields(COVIDData[] dataSet)
         {
             foreach (var data in dataSet)
