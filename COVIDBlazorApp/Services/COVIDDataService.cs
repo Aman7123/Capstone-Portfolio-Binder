@@ -7,42 +7,45 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
-namespace BlazorApp1
+namespace BlazorApp1.Services
 {
-    public class COVIDRestClient
+    public class COVIDDataService : ICOVIDDataService
     {
-        private HttpClient httpClient;        
-        public COVIDRestClient()
+        private readonly HttpClient httpClient;
+        private readonly IConfiguration Configuration;
+        public COVIDDataService(HttpClient httpClient, IConfiguration config)
         {
-            httpClient = new HttpClient();
+            this.httpClient = httpClient;            
+            Configuration = config;
         }
         public async Task<StateData[]> GetCurrentStates()
         {
             StateData[] states;
-            string endpoint = "https://api.covidtracking.com/v1/states/current.json";
+            string endpoint = Configuration["EndPoints:States:Current"]; 
             states = await httpClient.GetFromJsonAsync<StateData[]>(endpoint);
-            if(states != null) { PopulateCustomFields(states); }
-            return states;                                
+            if (states != null) { PopulateCustomFields(states); }
+            return states;
         }
         public async Task<StateData[]> GetHistoricState(string state)
         {
             StateData[] states;
-            string endpoint = String.Format("https://api.covidtracking.com/v1/states/{0}/daily.json",state);            
+            string endpoint = Configuration["EndPoints:State:Historic"]; 
+            endpoint = endpoint.Replace("{state}", state);
             states = await httpClient.GetFromJsonAsync<StateData[]>(endpoint);
             if (states != null) { PopulateCustomFields(states); }
-            return states;            
-        }        
+            return states;
+        }
         public async Task<USData[]> GetHistoricUnitedStates()
         {
             USData[] unitedStates;
-            string endpoint = "https://api.covidtracking.com/v1/us/daily.json";
+            string endpoint = Configuration["EndPoints:US:Historic"]; 
             unitedStates = await httpClient.GetFromJsonAsync<USData[]>(endpoint);
             if (unitedStates != null) { PopulateCustomFields(unitedStates); }
             return unitedStates;
         }
         public void PopulateCustomFields(COVIDData[] dataSet)
         {
-            foreach(var data in dataSet)
+            foreach (var data in dataSet)
             {
                 data.PopulateCustomFields();
             }

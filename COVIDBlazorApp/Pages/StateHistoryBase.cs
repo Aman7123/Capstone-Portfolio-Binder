@@ -1,4 +1,5 @@
 ﻿using BlazorApp1.Models;
+using BlazorApp1.Services;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,8 @@ namespace BlazorApp1.Pages
 {
     public class StateHistoryBase : ComponentBase
     {
-        private COVIDRestClient restClient = new COVIDRestClient();        
+        [Inject]
+        private ICOVIDDataService restClient { get; set; } //COVIDDataService        
         private string stateCode = "VA";
         private const int dayAmt = 10;
         private StateData[] historicState;

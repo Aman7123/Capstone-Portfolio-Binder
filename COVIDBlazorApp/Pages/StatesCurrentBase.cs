@@ -1,5 +1,7 @@
 ﻿using BlazorApp1.Models;
+using BlazorApp1.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -8,27 +10,20 @@ namespace BlazorApp1.Pages
 {
     public class StatesCurrentBase : ComponentBase
     {
-        private COVIDRestClient restClient = new COVIDRestClient();
+        [Inject]
+        private ICOVIDDataService restClient { get; set; } //COVIDDataService        
         private StateData[] currentStates;
         protected StateForm stateForm = new StateForm();        
         protected List<StateData> displayStates;
-        protected string todaysDate, exception;
+        protected string todaysDate;
         protected override async Task OnInitializedAsync()
         {
-            try
+            currentStates = await restClient.GetCurrentStates();
+            if(currentStates.Length > 0)
             {
-                currentStates = await restClient.GetCurrentStates();
-                if(currentStates.Length > 0)
-                {
-                    todaysDate = currentStates[0].dateTime.ToString("dddd, dd MMMM yyyy");
-                    PopulateDisplay(currentStates);
-                }                
-                exception = "";
-            }
-            catch (Exception ex)
-            {
-                exception = ex.Message;
-            }
+                todaysDate = currentStates[0].dateTime.ToString("dddd, dd MMMM yyyy");
+                PopulateDisplay(currentStates);
+            }                
         }
         protected void PopulateDisplay(StateData[] states)
         {

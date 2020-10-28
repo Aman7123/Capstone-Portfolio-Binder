@@ -1,4 +1,5 @@
 ﻿using BlazorApp1.Models;
+using BlazorApp1.Services;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,8 @@ namespace BlazorApp1.Pages
 {
     public class UnitedStatesHistoryBase : ComponentBase
     {
-        private COVIDRestClient restClient = new COVIDRestClient();
+        [Inject]
+        private ICOVIDDataService restClient { get; set; } //COVIDDataService      
         private const int dayAmt = 10;
         private USData[] historicUS;
         protected USForm usForm = new USForm();
