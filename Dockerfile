@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sak
+FROM mcr.microsoft.com/dotnet/sdk
 WORKDIR /user/
 COPY *.sln .
 COPY *.csproj .
