@@ -4,5 +4,5 @@ COPY *.sln .
 COPY *.csproj .
 RUN dotnet restore
 
-EXPOSE 5500
-RUN dotnet run --urls=http://0.0.0.0:5500 BlazorApp1.csproj
+EXPOSE 5000
+CMD ["dotnet", "run", "--urls=http://0.0.0.0:5000", "BlazorApp1.csproj"]
