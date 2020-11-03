@@ -18,8 +18,8 @@ namespace BlazorApp1
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
             HttpClient httpClient = new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
-            builder.Services.AddScoped(sp => httpClient);
-            builder.Services.AddTransient<ICOVIDDataService,COVIDDataService>(ds => new COVIDDataService(httpClient, builder.Configuration));            
+            //builder.Services.AddScoped(sp => httpClient);            
+            builder.Services.AddSingleton<ICOVIDDataService,COVIDDataService>(ds => new COVIDDataService(httpClient, builder.Configuration));                    
             await builder.Build().RunAsync();
         }
     }
