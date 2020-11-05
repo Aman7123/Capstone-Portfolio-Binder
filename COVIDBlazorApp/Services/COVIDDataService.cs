@@ -40,6 +40,14 @@ namespace BlazorApp1.Services
             if (states != null) { PopulateCustomFields(states); }
             return states;
         }
+        public async Task<USData[]> GetCurrentUnitedStates()
+        {
+            USData[] unitedStates;
+            string endpoint = Configuration["EndPoints:US:Current"];
+            unitedStates = await httpClient.GetFromJsonAsync<USData[]>(endpoint);
+            if (unitedStates != null) { PopulateCustomFields(unitedStates); }
+            return unitedStates;
+        }
         public async Task<USData[]> GetHistoricUnitedStates()
         {
             USData[] unitedStates;
