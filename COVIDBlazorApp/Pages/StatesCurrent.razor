@@ -27,43 +27,8 @@ else
     {
         <p><b>Date: </b>@todaysDate</p>
     }
-    <table class="table sticky">
-        <thead>
-            <tr>                
-                <th>State</th>
-                <th>Pos. Cases</th>
-                <th>Neg. Cases</th>
-                <th>New Cases</th>
-                <th>New Neg. Cases</th>
-                <th>Curr. Hosp.</th>
-                <th>New Hosp.</th>
-                <th>Cum. Hosp.</th>
-                <th>Curr. ICU</th>
-                <th>Cum. ICU</th>
-                <th>Total Deaths</th>
-                <th>New Deaths</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var state in displayStates)
-            {
-                <tr>                    
-                    <td>@state.state</td>
-                    <td>@state.positive</td>
-                    <td>@state.negative</td>
-                    <td>@state.positiveIncrease</td>
-                    <td>@state.negativeIncrease</td>
-                    <td>@state.hospitalizedCurrently</td>
-                    <td>@state.hospitalizedIncrease</td>
-                    <td>@state.hospitalizedCumulative</td>
-                    <td>@state.inIcuCurrently</td>
-                    <td>@state.inIcuCumulative</td>
-                    <td>@state.death</td>
-                    <td>@state.deathIncrease</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <StateCurrentTable states="displayStates">
+    </StateCurrentTable>
     <h4>
         <b>Authors: Daniel Carson &amp; Aaron Renner</b>
     </h4>

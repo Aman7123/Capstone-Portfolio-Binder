@@ -1,0 +1,21 @@
+﻿<TableTemplate Items="states">
+    <TableHeader>
+        <th>State</th>
+        <th>Total Cases</th>
+        <th>New Cases</th>
+        <th>Total Deaths</th>
+        <th>New Deaths</th>
+    </TableHeader>
+    <RowTemplate>
+        <td>@context.state</td>
+        <td>@context.positive</td>
+        <td>@context.positiveIncrease</td>
+        <td>@context.death</td>
+        <td>@context.deathIncrease</td>
+    </RowTemplate>
+</TableTemplate>
+
+@code {
+    [Parameter]
+    public IReadOnlyList<StateData> states { get; set; }
+}
