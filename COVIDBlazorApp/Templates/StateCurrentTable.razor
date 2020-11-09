@@ -1,17 +1,22 @@
 ﻿<TableTemplate Items="states">
     <TableHeader>
         <th>State</th>
-        <th>Total Cases</th>
-        <th>New Cases</th>
-        <th>Total Deaths</th>
-        <th>New Deaths</th>
+        <th>All <span class="oi oi-envelope-open" style="color: saddlebrown" aria-hidden="true"></span></th>
+        <th>All <span class="oi oi-droplet" style="color: red" aria-hidden="true"></span></th>
+        <th>New <span class="oi oi-briefcase" style="color: saddlebrown" aria-hidden="true"></span></th>
+        <th>New <span class="oi oi-droplet" style="color: red" aria-hidden="true"></span></th>
+        <th>Rec <span class="oi oi-pulse" style="color: forestgreen" aria-hidden="true"></span></th>        
     </TableHeader>
     <RowTemplate>
         <td>@context.state</td>
         <td>@context.positive</td>
-        <td>@context.positiveIncrease</td>
         <td>@context.death</td>
+        <td>@context.positiveIncrease</td>
         <td>@context.deathIncrease</td>
+        @if (@context.recovered != null)
+            { <td>@context.recovered</td> }
+        else
+            { <td>0</td>}
     </RowTemplate>
 </TableTemplate>
 
