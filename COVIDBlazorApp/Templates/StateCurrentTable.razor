@@ -1,11 +1,12 @@
 ﻿<TableTemplate Items="states">
     <TableHeader>
-        <th>State</th>
-        <th>All <span class="oi oi-envelope-open" style="color: saddlebrown" aria-hidden="true"></span></th>
-        <th>All <span class="oi oi-droplet" style="color: red" aria-hidden="true"></span></th>
-        <th>New <span class="oi oi-briefcase" style="color: saddlebrown" aria-hidden="true"></span></th>
-        <th>New <span class="oi oi-droplet" style="color: red" aria-hidden="true"></span></th>
-        <th>Rec <span class="oi oi-pulse" style="color: forestgreen" aria-hidden="true"></span></th>        
+        <th>State <span class="oi oi-map-marker" style="color: mediumslateblue" aria-hidden="true"></span></th>
+        <th title="All Cases">All Cases <span class="oi oi-briefcase" style="color: mediumslateblue" aria-hidden="true"></span></th>
+        <th title="All Deaths">All Deaths <span class="oi oi-droplet" style="color: mediumslateblue" aria-hidden="true"></span></th>
+        <th title="New Cases">New Cases <span class="oi oi-briefcase" style="color: mediumslateblue" aria-hidden="true"></span></th>
+        <th title="New Deaths">New Deaths <span class="oi oi-droplet" style="color: mediumslateblue" aria-hidden="true"></span></th>
+        <th title="Current Hospitalized">Hospitalized <span class="oi oi-plus" style="color: mediumslateblue" aria-hidden="true"></span></th>
+        <th title="Recoveries">Recoveries <span class="oi oi-pulse" style="color: mediumslateblue" aria-hidden="true"></span></th>
     </TableHeader>
     <RowTemplate>
         <td>@context.state</td>
@@ -13,10 +14,11 @@
         <td>@context.death</td>
         <td>@context.positiveIncrease</td>
         <td>@context.deathIncrease</td>
+        <td>@context.hospitalizedCurrently</td>
         @if (@context.recovered != null)
-            { <td>@context.recovered</td> }
+        {<td>@context.recovered</td> }
         else
-            { <td>0</td>}
+        { <td>0</td>}
     </RowTemplate>
 </TableTemplate>
 

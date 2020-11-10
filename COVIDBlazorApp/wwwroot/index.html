@@ -19,10 +19,22 @@
             padding: 10px;
             border: 1px solid #c2c2c2;
         }
-        .table.sticky th {
-            position: sticky;
-            top: 10px;
+        @media (max-width: 767.98px) {
+            .table.sticky th {
+                white-space: nowrap;
+                overflow: hidden;
+                position: sticky;
+                top: 0px;
+            }
         }
+        @media (min-width: 768px) {
+            .table.sticky th {
+                white-space: nowrap;
+                overflow: hidden;
+                position: sticky;
+                top: 10px;
+            }
+        }   
     </style>
 </head>
 
