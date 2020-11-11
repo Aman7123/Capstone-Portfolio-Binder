@@ -28,7 +28,10 @@ namespace BlazorApp1.Services
             List<StateData> states;
             string endpoint = Configuration["EndPoints:States:Current"];
             states = await httpClient.GetFromJsonAsync<List<StateData>>(endpoint);
-            if (states != null) { PopulateCustomFields(states); }
+            if (states != null) { 
+                PopulateCustomFields(states);
+                RemoveBadData(states);
+            }
             return states;
         }
         public async Task<List<StateData>> GetHistoricState(string state)
@@ -37,7 +40,9 @@ namespace BlazorApp1.Services
             string endpoint = Configuration["EndPoints:State:Historic"]; 
             endpoint = endpoint.Replace("{state}", state);
             states = await httpClient.GetFromJsonAsync<List<StateData>>(endpoint);
-            if (states != null) { PopulateCustomFields(states); }
+            if (states != null) { 
+                PopulateCustomFields(states);                
+            }
             return states;
         }
         public async Task<List<USData>> GetCurrentUnitedStates()
@@ -68,6 +73,20 @@ namespace BlazorApp1.Services
             foreach (var data in dataSet)
             {
                 data.PopulateCustomFields();
+            }
+        }
+        private void RemoveBadData(List<StateData> sd)
+        {
+            for(int i=0;i<sd.Count;i++)
+            {
+                StateData data = sd[i];
+                if(data.dataQualityGrade == null)
+                {
+                    sd.RemoveAt(i);
+                } else if(data.dataQualityGrade.Contains("D") || data.dataQualityGrade.Contains("F") || data.dataQualityGrade.Length == 0)
+                {
+                    sd.RemoveAt(i);
+                }
             }
         }
     }
