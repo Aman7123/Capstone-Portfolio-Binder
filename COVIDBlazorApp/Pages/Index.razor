@@ -13,49 +13,14 @@
 
 <h2><b>Current US COVID Statistics</b></h2>
 
-@if (currentUS == null)
+@if (usData == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    <table class="table sticky">
-
-        <thead>
-            <tr>                
-                <th>Pos. Cases</th>
-                <th>Neg. Cases</th>
-                <th>New Cases</th>
-                <th>New Neg. Tests</th>
-                <th>Curr. Hosp.</th>
-                <th>New Hosp.</th>
-                <th>Cum. Hosp.</th>
-                <th>Curr. ICU</th>
-                <th>Cum. ICU</th>
-                <th>Total Deaths</th>
-                <th>New Deaths</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach (var us in currentUS)
-            {
-                <tr>                    
-                    <td>@us.positive</td>
-                    <td>@us.negative</td>
-                    <td>@us.positiveIncrease</td>
-                    <td>@us.negativeIncrease</td>
-                    <td>@us.hospitalizedCurrently</td>
-                    <td>@us.hospitalizedIncrease</td>
-                    <td>@us.hospitalizedCumulative</td>
-                    <td>@us.inIcuCurrently</td>
-                    <td>@us.inIcuCumulative</td>
-                    <td>@us.death</td>
-                    <td>@us.deathIncrease</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <USCurrentTable US="usData"></USCurrentTable>
+    <br />
     <h4>
         <b>Authors: Daniel Carson &amp; Aaron Renner</b>
     </h4>

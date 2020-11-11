@@ -2,33 +2,15 @@
 @inherits StatesCurrentBase 
 <h2><b>Current States COVID Statistics</b></h2>
 
-@if (displayStates == null)
+@if (states == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    <EditForm class="form-inline" Model="@stateForm" OnValidSubmit="ChooseState">
-        <b><label class="my-1 mr-2" for="stateCode">State</label></b>
-        <InputSelect class="custom-select my-1 mr-sm-2" id="stateCode" @bind-Value="@stateForm.StateCode">
-            <option value="All">All</option>
-            @foreach (var state in stateMetaData)
-            {
-                @if (!state.state.Equals("AS") && !state.state.Equals("MP") && !state.state.Equals("VI"))
-                {
-                    <option value="@state.state">@state.name</option>
-                }
-            }
-        </InputSelect>
-        <button class="btn btn-outline-primary my-1" type="submit">Submit</button>
-    </EditForm>
-
-    @if (todaysDate != null)
-    {
-        <p><b>Date: </b>@todaysDate</p>
-    }
-    <StateCurrentTable states="displayStates">
+    <StateCurrentTable states="states">
     </StateCurrentTable>
+    <br />
     <h4>
         <b>Authors: Daniel Carson &amp; Aaron Renner</b>
     </h4>

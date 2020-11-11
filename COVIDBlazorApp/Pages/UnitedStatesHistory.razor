@@ -3,58 +3,14 @@
 
 <h2><b>Historical US COVID Statistics</b></h2>
 
-@if (displayData == null)
+@if (usData == null)
 {
     <p><em>Loading...</em></p>
 }
 else
-{    
-    <EditForm Model="@usForm" OnValidSubmit="UpdateTimeLine">
-            <b><label for="startDate">Start Date</label></b><br />
-            <InputDate id="startDate" @bind-Value="usForm.StartDate" /><br />
-            <b><label for="stopDate" style="padding-top:10px;">Stop Date</label></b><br />
-            <InputDate id="stopDate" @bind-Value="usForm.StopDate" /><br />
-            <button class="btn btn-outline-primary" style="margin-top:10px; margin-bottom:10px;" type="submit">Submit</button>
-    </EditForm>   
-    <table class="table sticky">
-
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Pos. Cases</th>
-                <th>Neg. Cases</th>
-                <th>New Cases</th>
-                <th>New Neg. Tests</th>
-                <th>Curr. Hosp.</th>
-                <th>New Hosp.</th>
-                <th>Cum. Hosp.</th>
-                <th>Curr. ICU</th>
-                <th>Cum. ICU</th>
-                <th>Total Deaths</th>
-                <th>New Deaths</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach (var us in displayData)
-            {                
-                <tr>
-                    <td>@us.displayDate</td>
-                    <td>@us.positive</td>
-                    <td>@us.negative</td>
-                    <td>@us.positiveIncrease</td>
-                    <td>@us.negativeIncrease</td>
-                    <td>@us.hospitalizedCurrently</td>
-                    <td>@us.hospitalizedIncrease</td>
-                    <td>@us.hospitalizedCumulative</td>
-                    <td>@us.inIcuCurrently</td>
-                    <td>@us.inIcuCumulative</td>
-                    <td>@us.death</td>
-                    <td>@us.deathIncrease</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+{     
+    <USHistoryTable US="usData"></USHistoryTable>
+    <br />
     <h4>
         <b>Authors: Daniel Carson &amp; Aaron Renner</b>
     </h4>

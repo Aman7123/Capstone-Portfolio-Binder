@@ -8,10 +8,12 @@
     <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
     <GridEvents OnToolbarClick="ToolbarClick" TValue="StateData"></GridEvents>
     <GridColumns>
-        <GridColumn Field="@nameof(StateData.state)"
-                    HeaderText="State"
-                    TextAlign="TextAlign.Left"
-                    Width="75">
+        <GridColumn Field="@nameof(StateData.dateTime)"
+                    HeaderText="Date"
+                    TextAlign="TextAlign.Right"
+                    Format="d"
+                    Type="ColumnType.Date"
+                    Width="100">
         </GridColumn>
         <GridColumn Field="@nameof(StateData.positive)"
                     HeaderText="All Cases"
@@ -62,7 +64,7 @@
         if (args.Item.Id == "Grid_excelexport")
         {
             ExcelExportProperties ExcelProperties = new ExcelExportProperties();
-            ExcelProperties.FileName = "CurrentStateData.xlsx";
+            ExcelProperties.FileName = "StateHistoryData.xlsx";
             this.Grid.ExcelExport(ExcelProperties);
         }
     }

@@ -1,49 +1,42 @@
 ﻿@using Syncfusion.Blazor.Grids
 
 @{
-    var Tool = (new List<string>() { "Search", "ExcelExport" });
+    var Tool = (new List<string>() { "ExcelExport" });
 }
 
-<SfGrid ID="Grid" @ref="Grid" DataSource="@states" AllowFiltering="true" AllowSorting="true" AllowExcelExport="true" Toolbar="@Tool" Height="500" Width="100%">
-    <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
-    <GridEvents OnToolbarClick="ToolbarClick" TValue="StateData"></GridEvents>
+<SfGrid ID="Grid" @ref="Grid" DataSource="@US" AllowExcelExport="true" Toolbar="@Tool" Height="100%" Width="100%">    
     <GridColumns>
-        <GridColumn Field="@nameof(StateData.state)"
-                    HeaderText="State"
-                    TextAlign="TextAlign.Left"
-                    Width="75">
-        </GridColumn>
-        <GridColumn Field="@nameof(StateData.positive)"
+        <GridColumn Field="@nameof(USData.positive)"
                     HeaderText="All Cases"
                     TextAlign="TextAlign.Right"
                     Format="N0"
                     Width="150">
         </GridColumn>
-        <GridColumn Field="@nameof(StateData.death)"
+        <GridColumn Field="@nameof(USData.death)"
                     HeaderText="All Deaths"
                     TextAlign="TextAlign.Right"
                     Format="N0"
                     Width="150">
         </GridColumn>
-        <GridColumn Field="@nameof(StateData.positiveIncrease)"
+        <GridColumn Field="@nameof(USData.positiveIncrease)"
                     HeaderText="New Cases"
                     TextAlign="TextAlign.Right"
                     Format="N0"
                     Width="150">
         </GridColumn>
-        <GridColumn Field="@nameof(StateData.deathIncrease)"
+        <GridColumn Field="@nameof(USData.deathIncrease)"
                     HeaderText="New Deaths"
                     TextAlign="TextAlign.Right"
                     Format="N0"
                     Width="150">
         </GridColumn>
-        <GridColumn Field="@nameof(StateData.hospitalizedCurrently)"
+        <GridColumn Field="@nameof(USData.hospitalizedCurrently)"
                     HeaderText="Hospitalized"
                     TextAlign="TextAlign.Right"
                     Format="N0"
                     Width="150">
         </GridColumn>
-        <GridColumn Field="@nameof(StateData.recovered)"
+        <GridColumn Field="@nameof(USData.recovered)"
                     HeaderText="Recoveries"
                     TextAlign="TextAlign.Right"
                     Format="N0"
@@ -55,14 +48,14 @@
 
 @code {
     [Parameter]
-    public IReadOnlyList<StateData> states { get; set; }
-    private SfGrid<StateData> Grid;
+    public IReadOnlyList<USData> US { get; set; }
+    private SfGrid<USData> Grid;
     public void ToolbarClick(Syncfusion.Blazor.Navigations.ClickEventArgs args)
     {
         if (args.Item.Id == "Grid_excelexport")
         {
             ExcelExportProperties ExcelProperties = new ExcelExportProperties();
-            ExcelProperties.FileName = "CurrentStateData.xlsx";
+            ExcelProperties.FileName = "CurrentUSData.xlsx";
             this.Grid.ExcelExport(ExcelProperties);
         }
     }

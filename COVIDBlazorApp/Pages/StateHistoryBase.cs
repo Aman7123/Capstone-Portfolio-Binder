@@ -11,54 +11,19 @@ namespace BlazorApp1.Pages
     {
         [Inject]
         private ICOVIDDataService restClient { get; set; } //COVIDDataService        
-        private string stateCode = "VA";
-        private const int dayAmt = 10;
-        private StateData[] historicState;
+        private string stateCode = "NY";        
+        protected List<StateData> states;
         protected List<StateMetaData> stateMetaData { get; set; }
-        protected StateForm stateForm = new StateForm();
-        protected List<StateData> displayData;      
+        protected StateForm stateForm = new StateForm();        
         protected override async Task OnInitializedAsync()
         {
-            stateMetaData = await restClient.GetStateMetaData();
+            stateMetaData = await restClient.GetStateMetaData();            
             await LoadData(stateCode);
-            PopulateDisplay(historicState);
-            PopulateForm(historicState);
+            stateForm.StateCode = stateCode;
         }
         private async Task LoadData(string stateCode)
         {
-            historicState = await restClient.GetHistoricState(stateCode);
-        }
-        private void PopulateDisplay(StateData[] state)
-        {
-            displayData = new List<StateData>();
-            for (int i = 0; i < dayAmt; i++)
-            {
-                StateData data = state[i];
-                displayData.Add(data);
-            }
-        }
-        private void PopulateDisplay(StateData[] state, DateTime start, DateTime stop)
-        {
-            displayData = new List<StateData>();
-            for (int i = 0; i < state.Length; i++)
-            {
-                StateData data = state[i];
-                DateTime date = data.dateTime;
-                if (date <= stop && date >= start)
-                {
-                    displayData.Add(data);
-                }
-            }
-        }
-        private void PopulateForm(StateData[] state)
-        {
-            int len = state.Length;
-            if (len >= dayAmt)
-            {
-                stateForm.StartDate = state[(dayAmt - 1)].dateTime;
-                stateForm.StopDate = state[0].dateTime;
-                stateForm.StateCode = stateCode;
-            }
+            states = await restClient.GetHistoricState(stateCode);
         }
         protected async Task UpdateParameters()
         {
@@ -66,8 +31,7 @@ namespace BlazorApp1.Pages
             {
                 stateCode = stateForm.StateCode;
                 await LoadData(stateCode);
-            }
-            PopulateDisplay(historicState, stateForm.StartDate, stateForm.StopDate);
+            }            
         }
     }
 }

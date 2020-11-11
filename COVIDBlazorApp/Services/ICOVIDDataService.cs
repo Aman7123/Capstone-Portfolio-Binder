@@ -9,9 +9,9 @@ namespace BlazorApp1.Services
     public interface ICOVIDDataService
     {
         Task<List<StateMetaData>> GetStateMetaData();        
-        Task<StateData[]> GetCurrentStates();
-        Task<StateData[]> GetHistoricState(string state);
-        Task<USData[]> GetHistoricUnitedStates();
-        Task<USData[]> GetCurrentUnitedStates();
+        Task<List<StateData>> GetCurrentStates();
+        Task<List<StateData>> GetHistoricState(string state);
+        Task<List<USData>> GetHistoricUnitedStates();
+        Task<List<USData>> GetCurrentUnitedStates();
     }
 }

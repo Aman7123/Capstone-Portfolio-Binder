@@ -11,10 +11,10 @@ namespace BlazorApp1.Pages
     {
         [Inject]
         private ICOVIDDataService restClient { get; set; } //COVIDDataService      
-        protected USData[] currentUS;
+        protected List<USData> usData;
         protected override async Task OnInitializedAsync()
         {
-            currentUS = await restClient.GetCurrentUnitedStates();                        
+            usData = await restClient.GetCurrentUnitedStates();                        
         }
     }
 }

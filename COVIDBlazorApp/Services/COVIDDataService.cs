@@ -23,41 +23,47 @@ namespace BlazorApp1.Services
             string endpoint = Configuration["EndPoints:States:Metadata"];
             return await httpClient.GetFromJsonAsync<List<StateMetaData>>(endpoint);                      
         }
-        public async Task<StateData[]> GetCurrentStates()
+        public async Task<List<StateData>> GetCurrentStates()
         {
-            StateData[] states;
-            string endpoint = Configuration["EndPoints:States:Current"]; 
-            states = await httpClient.GetFromJsonAsync<StateData[]>(endpoint);
+            List<StateData> states;
+            string endpoint = Configuration["EndPoints:States:Current"];
+            states = await httpClient.GetFromJsonAsync<List<StateData>>(endpoint);
             if (states != null) { PopulateCustomFields(states); }
             return states;
         }
-        public async Task<StateData[]> GetHistoricState(string state)
+        public async Task<List<StateData>> GetHistoricState(string state)
         {
-            StateData[] states;
+            List<StateData> states;
             string endpoint = Configuration["EndPoints:State:Historic"]; 
             endpoint = endpoint.Replace("{state}", state);
-            states = await httpClient.GetFromJsonAsync<StateData[]>(endpoint);
+            states = await httpClient.GetFromJsonAsync<List<StateData>>(endpoint);
             if (states != null) { PopulateCustomFields(states); }
             return states;
         }
-        public async Task<USData[]> GetCurrentUnitedStates()
+        public async Task<List<USData>> GetCurrentUnitedStates()
         {
-            USData[] unitedStates;
+            List<USData> unitedStates;
             string endpoint = Configuration["EndPoints:US:Current"];
-            unitedStates = await httpClient.GetFromJsonAsync<USData[]>(endpoint);
+            unitedStates = await httpClient.GetFromJsonAsync<List<USData>>(endpoint);
             if (unitedStates != null) { PopulateCustomFields(unitedStates); }
             return unitedStates;
         }
-        public async Task<USData[]> GetHistoricUnitedStates()
+        public async Task<List<USData>> GetHistoricUnitedStates()
         {
-            USData[] unitedStates;
+            List<USData> unitedStates;
             string endpoint = Configuration["EndPoints:US:Historic"]; 
-            unitedStates = await httpClient.GetFromJsonAsync<USData[]>(endpoint);
+            unitedStates = await httpClient.GetFromJsonAsync<List<USData>>(endpoint);
             if (unitedStates != null) { PopulateCustomFields(unitedStates); }
             return unitedStates;
         }
-
-        private void PopulateCustomFields(COVIDData[] dataSet)
+        private void PopulateCustomFields(List<StateData> dataSet)
+        {
+            foreach (var data in dataSet)
+            {
+                data.PopulateCustomFields();
+            }
+        }
+        private void PopulateCustomFields(List<USData> dataSet)
         {
             foreach (var data in dataSet)
             {
