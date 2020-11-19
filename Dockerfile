@@ -2,8 +2,7 @@ FROM mcr.microsoft.com/dotnet/sdk
 WORKDIR /user/
 
 # copy csproj and restore as distinct layers
-COPY *.sln .
-COPY *.csproj .
+COPY COVIDBlazorApp/ .
 RUN dotnet restore
 
 # build app
