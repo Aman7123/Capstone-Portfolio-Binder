@@ -11,19 +11,23 @@ namespace BlazorApp1.Pages
     {
         [Inject]
         private ICOVIDDataService restClient { get; set; } //COVIDDataService        
-        private string stateCode = "NY";        
-        protected List<StateData> states;
+        private string stateCode = "NY";            
+        protected StateData[] states;
+        protected List<StateData> displayData;
         protected List<StateMetaData> stateMetaData { get; set; }
         protected StateForm stateForm = new StateForm();        
         protected override async Task OnInitializedAsync()
         {
-            stateMetaData = await restClient.GetStateMetaData();            
-            await LoadData(stateCode);
+            stateMetaData = await restClient.GetStateMetaData();
             stateForm.StateCode = stateCode;
+            stateForm.StartDate = DateTime.Now - new TimeSpan(30,0,0,0);
+            stateForm.StopDate = DateTime.Now - new TimeSpan(1, 0, 0, 0);
+            await LoadData(stateCode);                                      
         }
         private async Task LoadData(string stateCode)
-        {
-            states = await restClient.GetHistoricState(stateCode);
+        {            
+            states = await restClient.GetStateHistory(stateCode);
+            PopulateDisplay();
         }
         protected async Task UpdateParameters()
         {
@@ -31,7 +35,22 @@ namespace BlazorApp1.Pages
             {
                 stateCode = stateForm.StateCode;
                 await LoadData(stateCode);
+            } else
+            {                
+                PopulateDisplay();
             }            
+        }
+        protected void PopulateDisplay()
+        {
+            displayData = new List<StateData>();            
+            for(int i = 0; i < states.Length; i++)
+            {
+                StateData state = states[i];
+                if(state.dateTime >= stateForm.StartDate && state.dateTime <= stateForm.StopDate)
+                {
+                    displayData.Add(state);
+                } 
+            }                           
         }
     }
 }

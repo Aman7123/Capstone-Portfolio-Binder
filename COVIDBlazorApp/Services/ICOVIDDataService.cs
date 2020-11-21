@@ -10,8 +10,8 @@ namespace BlazorApp1.Services
     {
         Task<List<StateMetaData>> GetStateMetaData();        
         Task<List<StateData>> GetCurrentStates();
-        Task<List<StateData>> GetHistoricState(string state);
-        Task<List<USData>> GetHistoricUnitedStates();
         Task<List<USData>> GetCurrentUnitedStates();
+        Task<StateData[]> GetStateHistory(string state);
+        Task<List<USData>> GetHistoricUnitedStates();        
     }
 }
