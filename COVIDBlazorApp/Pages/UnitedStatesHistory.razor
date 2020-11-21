@@ -1,20 +1,31 @@
 @page "/us-history"
 @inherits UnitedStatesHistoryBase
 
-<h2><b>Historical US COVID Statistics</b></h2>
+<h2><b>United States</b></h2>
 
-@if (usData == null)
+@if (displayData == null)
 {
     <p><em>Loading...</em></p>
 }
 else
-{     
-    <USHistoryTable US="usData"></USHistoryTable>
+{
+    <EditForm Model="@usForm" OnValidSubmit="UpdateParameters">
+        <div class="form-group">
+            <div class="form-group">
+                <b><label for="startDate">Start Date</label></b><br />
+                <InputDate class="form-control-sm" id="startDate" @bind-Value="usForm.StartDate" /><br />
+            </div>
+            <div class="form-group">
+                <b><label for="stopDate">Stop Date</label></b><br />
+                <InputDate class="form-control-sm" id="stopDate" @bind-Value="usForm.StopDate" /><br />
+            </div>
+            <button class="btn btn-outline-primary" type="submit">Submit</button>
+        </div>
+    </EditForm>
+    <USHistoryTable US="displayData"></USHistoryTable>
     <br />
-    <h4>
-        <b>Authors: Daniel Carson &amp; Aaron Renner</b>
-    </h4>
-    <h4>
+    <p>
+        <b>Authors:</b> Daniel Carson &amp; Aaron Renner<br />
         <b>Data Source:</b> <a href="http://www.covidtracking.com">The COVID Tracking Project</a>
-    </h4>
+    </p>
 }

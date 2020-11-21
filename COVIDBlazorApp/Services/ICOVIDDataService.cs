@@ -12,6 +12,6 @@ namespace BlazorApp1.Services
         Task<List<StateData>> GetCurrentStates();
         Task<List<USData>> GetCurrentUnitedStates();
         Task<StateData[]> GetStateHistory(string state);
-        Task<List<USData>> GetHistoricUnitedStates();        
+        Task<USData[]> GetUnitedStatesHistory();        
     }
 }
