@@ -1,28 +1,10 @@
 ﻿@page "/"
-@inherits IndexBase
 <h2><b>Home page</b></h2>
 
-<br />
 <h4>
     Welcome to our Capstone Project
 </h4>
-<br />
-<WordFrame></WordFrame>
-<br />
-<h2><b>Current US COVID Statistics</b></h2>
 
-@if (usData == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <USCurrentTable US="usData"></USCurrentTable>
-    <br />
-    <h4>
-        <b>Authors: Daniel Carson &amp; Aaron Renner</b>
-    </h4>
-    <h4>
-        <b>Data Source:</b> <a href="http://www.covidtracking.com">The COVID Tracking Project</a>
-    </h4>
-}
+<p>Interacting with RESTful APIs and returning COVID Statistics</p>
+
+<WordFrame></WordFrame>

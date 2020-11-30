@@ -1,6 +1,6 @@
 @page "/states-current"
 @inherits StatesCurrentBase 
-<h2><b>Current States COVID Statistics</b></h2>
+<h2><b>States</b></h2>
 
 @if (states == null)
 {
@@ -11,11 +11,9 @@ else
     <StateCurrentTable states="states">
     </StateCurrentTable>
     <br />
-    <h4>
-        <b>Authors: Daniel Carson &amp; Aaron Renner</b>
-    </h4>
-    <h4>
+    <p>
+        <b>Authors:</b> Daniel Carson &amp; Aaron Renner<br />
         <b>Data Source:</b> <a href="http://www.covidtracking.com">The COVID Tracking Project</a>
-    </h4>
+    </p>
 }
 

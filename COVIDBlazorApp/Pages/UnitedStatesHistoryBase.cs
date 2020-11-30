@@ -11,10 +11,31 @@ namespace BlazorApp1.Pages
     {
         [Inject]
         private ICOVIDDataService restClient { get; set; } //COVIDDataService              
-        protected List<USData> usData;                
+        protected USData[] usData;
+        protected List<USData> displayData;
+        protected USForm usForm = new USForm();
         protected override async Task OnInitializedAsync()
         {
-            usData = await restClient.GetHistoricUnitedStates();
+            usData = await restClient.GetUnitedStatesHistory();
+            usForm.StartDate = DateTime.Now - new TimeSpan(30, 0, 0, 0);
+            usForm.StopDate = DateTime.Now - new TimeSpan(1, 0, 0, 0);
+            PopulateDisplay();
+        }
+        protected void PopulateDisplay()
+        {
+            displayData = new List<USData>();
+            for (int i = 0; i < usData.Length; i++)
+            {
+                USData us = usData[i];
+                if (us.dateTime >= usForm.StartDate && us.dateTime <= usForm.StopDate)
+                {
+                    displayData.Add(us);
+                }
+            }
+        }
+        protected void UpdateParameters()
+        {
+            PopulateDisplay();
         }
     }
 }

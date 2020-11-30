@@ -34,16 +34,28 @@ namespace BlazorApp1.Services
             }
             return states;
         }
-        public async Task<List<StateData>> GetHistoricState(string state)
+        public async Task<StateData[]> GetStateHistory(string state)
         {
-            List<StateData> states;
-            string endpoint = Configuration["EndPoints:State:Historic"]; 
+            StateData[] states;
+            string endpoint = Configuration["EndPoints:State:Historic"];
             endpoint = endpoint.Replace("{state}", state);
-            states = await httpClient.GetFromJsonAsync<List<StateData>>(endpoint);
-            if (states != null) { 
-                PopulateCustomFields(states);                
+            states = await httpClient.GetFromJsonAsync<StateData[]>(endpoint);
+            if (states != null)
+            {
+                PopulateCustomFields(states);
             }
             return states;
+        }
+        public async Task<USData[]> GetUnitedStatesHistory()
+        {
+            USData[] us;
+            string endpoint = Configuration["EndPoints:US:Historic"];
+            us = await httpClient.GetFromJsonAsync<USData[]>(endpoint);
+            if (us != null)
+            {
+                PopulateCustomFields(us);
+            }
+            return us;
         }
         public async Task<List<USData>> GetCurrentUnitedStates()
         {
@@ -62,6 +74,13 @@ namespace BlazorApp1.Services
             return unitedStates;
         }
         private void PopulateCustomFields(List<StateData> dataSet)
+        {
+            foreach (var data in dataSet)
+            {
+                data.PopulateCustomFields();
+            }
+        }
+        private void PopulateCustomFields(COVIDData[] dataSet)
         {
             foreach (var data in dataSet)
             {
@@ -88,6 +107,6 @@ namespace BlazorApp1.Services
                     sd.RemoveAt(i);
                 }
             }
-        }
+        }        
     }
 }
