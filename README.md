@@ -148,8 +148,9 @@ Project Link: [https://github.com/Aman7123/Capstone-Portfolio-Binder](https://gi
 
 
 
-<!-- MARKDOWN LINKS & IMAGES
+<!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+<!-- EXTRA RESOURCES FOR EXAMPLE
 [contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
 [contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
@@ -162,5 +163,5 @@ Project Link: [https://github.com/Aman7123/Capstone-Portfolio-Binder](https://gi
 [license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/othneildrew
- -->
+-->
  [product-screenshot]: images/App_US_Data.png
