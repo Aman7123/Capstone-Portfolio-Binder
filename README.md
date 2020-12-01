@@ -71,8 +71,7 @@ This application has been created as an examples of creating connected software 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+This is an example of how you may give instructions on setting up your project locally. To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
@@ -100,27 +99,54 @@ dotnet run BlazorApp1.csproj
 ```
 4. Navigate to your browser and access [localhost:5000](http://localhost:5000)
 
+### Using Docker
+
+If you are familiar with using Docker to run your project and it is installed on your machine I recommend using the build and run commands below.
+
+1. From the root Github repo folder run
+```sh
+dotnet build --tag covid:1.0 .
+```
+2. After your image is created you can execute the webserver on your local machine by running
+```sh
+docker run --detach --p 5000:5000 --name covid covid:1.0
+```
+4. Navigate to your browser and access [localhost:5000](http://localhost:5000)
 
 
-<!-- USAGE EXAMPLES -->
-## Usage
+<!-- COVID Tracking Project -->
+## API Resources
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+To build our Website we required obtaining data related to the Coronavirus Pandemic by utilizing [The COVID Tracking Project API](https://covidtracking.com/data/api), this API collects Coronavirus data from local state governments in the United States and reviews all the data to ensure it is valid.
 
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+* For the Coronavirus statistics for the whole United States today use
+```http
+GET https://api.covidtracking.com/v1/us/current.json
+```
+```json
+{
+    "date": int,
+    "states": int,
+    "positive": int,
+    "negative": int,
+    "pending": int,
+    "hospitalizedCurrently": int,
+    "hospitalizedCumulative": int,
+    "inIcuCurrently": int,
+    "inIcuCumulative": int,
+    "onVentilatorCurrently": int,
+    "onVentilatorCumulative": int,
+    "recovered": int,
+    "death": int,
+    "totalTestResults": int,
+    "deathIncrease": int,
+    "hospitalizedIncrease": int,
+    "negativeIncrease": int,
+    "positiveIncrease": int,
+    "totalTestResultsIncrease": int,
+    "hash": string
+}
+```
 
 
 
