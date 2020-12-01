@@ -57,10 +57,12 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://covid.aaronrenner.com)
 
-This application has been created as an examples of creating connected software to inform people of the threat of the SARS-COV-2 virus across the United States. The basis and guidelines for this project application are provided from our Senior Capstone Project at [Shepherd University, Sheherdstown, WV 25443](https://goo.gl/maps/e3RNCSLP5NYajBwd7). We opted to use a Web Application using the frameworks provided by the Microsoft DOTNET core, this called a [Blazor Web Application](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor).
+This application has been created as an examples of creating connected software to inform people of the threat of the SARS-COV-2 virus across the United States. The basis and guidelines for this project application are provided from our Senior Capstone Project at [Shepherd University, Shepherdstown, WV 25443](https://goo.gl/maps/e3RNCSLP5NYajBwd7). We opted to use a Web Application using the frameworks provided by the Microsoft Dotnet core, this called a [Blazor Web Application](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor).
 
 ### Built With
+* [COVID Tracking Project](https://covidtracking.com/data/api)
 * [Microsoft Visual Studio CE](https://visualstudio.microsoft.com/vs/community/)
+* [Dotnet Core](https://dotnet.microsoft.com/download/dotnet-core/3.1)
 * [Blazor Web Application](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor)
 * [Docker](https://www.docker.com/)
 
@@ -74,27 +76,30 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
+Your machine will require dotnot resources to execute our application, make sure you have at least version 3. If you need to to install these resources check [Dotnet Core 3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1)
 * npm
-  ```sh
-  npm install npm@latest -g
-  ```
+```sh
+dotnet --version
+```
 
 ### Installation
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```JS
-   const API_KEY = 'ENTER YOUR API';
-   ```
+1. Clone the repo
+```sh
+git clone https://github.com/Aman7123/Capstone-Portfolio-Binder.git
+```
+2. Frome the home directory, goto the project
+```sh
+cd COVIDBlazorApp/
+```
+3. If you have Dotnet installed you should be able to restore the project assets
+```sh
+dotnet restore
+```
+3. You can run this project on your local machine
+```sh
+dotnet run BlazorApp1.csproj
+```
+4. Navigate to your browser and access [localhost:5000](http://localhost:5000)
 
 
 
@@ -132,21 +137,10 @@ Project Link: [https://github.com/Aman7123/Capstone-Portfolio-Binder](https://gi
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Img Shields](https://shields.io)
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Pages](https://pages.github.com)
-* [Animate.css](https://daneden.github.io/animate.css)
-* [Loaders.css](https://connoratherton.com/loaders)
-* [Slick Carousel](https://kenwheeler.github.io/slick)
-* [Smooth Scroll](https://github.com/cferdinandi/smooth-scroll)
-* [Sticky Kit](http://leafo.net/sticky-kit)
-* [JVectorMap](http://jvectormap.com)
-* [Font Awesome](https://fontawesome.com)
-
-
-
-
+* [Dotnet Blazor App getting started](https://dotnet.microsoft.com/learn/aspnet/blazor-tutorial/intro)
+* [Visual Studio Community Edition 2019 getting started](https://docs.microsoft.com/en-us/visualstudio/install/install-visual-studio?view=vs-2019)
+* [Docker getting started](https://docs.docker.com/get-started/)
+* [Shepherd University Department of Computer, Science and Mathematics](https://www.shepherd.edu/cme)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
