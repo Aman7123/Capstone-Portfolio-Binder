@@ -27,16 +27,16 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://covid.aaronrenner.com){:target="_blank"} 
+[![Product Name Screen Shot][product-screenshot]](https://covid.aaronrenner.com)
 
-This application has been created as an examples of creating connected software to inform people of the threat of the SARS-COV-2 virus across the United States. The basis and guidelines for this project application are provided from our Senior Capstone Project at [Shepherd University, Shepherdstown, WV 25443](https://goo.gl/maps/e3RNCSLP5NYajBwd7){:target="_blank"} . We opted to use a Web Application using the frameworks provided by the Microsoft Dotnet core, this called a [Blazor Web Application](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor){:target="_blank"} .
+This application has been created as an examples of creating connected software to inform people of the threat of the SARS-COV-2 virus across the United States. The basis and guidelines for this project application are provided from our Senior Capstone Project at [Shepherd University, Shepherdstown, WV 25443](https://goo.gl/maps/e3RNCSLP5NYajBwd7). We opted to use a Web Application using the frameworks provided by the Microsoft Dotnet core, this called a [Blazor Web Application](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor).
 
 ### Built With
-* [COVID Tracking Project](https://covidtracking.com/data/api){:target="_blank"} 
-* [Microsoft Visual Studio CE](https://visualstudio.microsoft.com/vs/community/){:target="_blank"} 
-* [Dotnet Core](https://dotnet.microsoft.com/download/dotnet-core/3.1){:target="_blank"} 
-* [Blazor Web Application](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor){:target="_blank"} 
-* [Docker](https://www.docker.com/){:target="_blank"} 
+* [COVID Tracking Project](https://covidtracking.com/data/api)
+* [Microsoft Visual Studio CE](https://visualstudio.microsoft.com/vs/community/)
+* [Dotnet Core](https://dotnet.microsoft.com/download/dotnet-core/3.1)
+* [Blazor Web Application](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor)
+* [Docker](https://www.docker.com/)
 
 
 
@@ -47,7 +47,7 @@ This is an example of how you may give instructions on setting up your project l
 
 ### Prerequisites
 
-Your machine will require dotnot resources to execute our application, make sure you have at least version 3. If you need to to install these resources check [Dotnet Core 3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1){:target="_blank"} 
+Your machine will require dotnot resources to execute our application, make sure you have at least version 3. If you need to to install these resources check [Dotnet Core 3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1)
 ```sh
 dotnet --version
 ```
@@ -69,7 +69,7 @@ dotnet restore
 ```sh
 dotnet run BlazorApp1.csproj
 ```
-4. Navigate to your browser and access [localhost:5000](http://localhost:5000){:target="_blank"} 
+4. Navigate to your browser and access [localhost:5000](http://localhost:5000)
 
 ### Docker
 
@@ -83,13 +83,13 @@ dotnet build --tag covid:1.0 .
 ```sh
 docker run --detach --p 5000:5000 --name covid covid:1.0
 ```
-4. Navigate to your browser and access [localhost:5000](http://localhost:5000){:target="_blank"} 
+4. Navigate to your browser and access [localhost:5000](http://localhost:5000)
 
 
 <!-- COVID Tracking Project -->
 ## API
 
-To build our Website we required obtaining data related to the Coronavirus Pandemic by utilizing [The COVID Tracking Project API](https://covidtracking.com/data/api){:target="_blank"} , this API collects Coronavirus data from local state governments in the United States and reviews all the data to ensure it is valid.
+To build our Website we required obtaining data related to the Coronavirus Pandemic by utilizing [The COVID Tracking Project API](https://covidtracking.com/data/api), this API collects Coronavirus data from local state governments in the United States and reviews all the data to ensure it is valid.
 
 * For the Coronavirus statistics for the whole United States today use
 ```http
@@ -123,16 +123,16 @@ GET https://api.covidtracking.com/v1/us/current.json
 <!-- CONTACT -->
 ## Contact
 
-* Aaron Renner - [Github Profile](https://github.com/Aman7123/){:target="_blank"} 
-* Daniel Carson - [Github Profile](https://github.com/doit4dan/){:target="_blank"} 
+* Aaron Renner - [Github Profile](https://github.com/Aman7123/)
+* Daniel Carson - [Github Profile](https://github.com/doit4dan/)
 
-Project Link: [https://github.com/Aman7123/Capstone-Portfolio-Binder](https://github.com/Aman7123/Capstone-Portfolio-Binder){:target="_blank"} 
+Project Link: [https://github.com/Aman7123/Capstone-Portfolio-Binder](https://github.com/Aman7123/Capstone-Portfolio-Binder)
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
-* [Dotnet Blazor App getting started](https://dotnet.microsoft.com/learn/aspnet/blazor-tutorial/intro){:target="_blank"} 
-* [Visual Studio Community Edition 2019 getting started](https://docs.microsoft.com/en-us/visualstudio/install/install-visual-studio?view=vs-2019){:target="_blank"} 
-* [Docker getting started](https://docs.docker.com/get-started/){:target="_blank"} 
-* [Shepherd University Department of Computer, Science and Mathematics](https://www.shepherd.edu/cme){:target="_blank"} 
+* [Dotnet Blazor App getting started](https://dotnet.microsoft.com/learn/aspnet/blazor-tutorial/intro)
+* [Visual Studio Community Edition 2019 getting started](https://docs.microsoft.com/en-us/visualstudio/install/install-visual-studio?view=vs-2019)
+* [Docker getting started](https://docs.docker.com/get-started/)
+* [Shepherd University Department of Computer, Science and Mathematics](https://www.shepherd.edu/cme)
 
  [product-screenshot]: images/App_US_Data.png
