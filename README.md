@@ -77,7 +77,6 @@ To get a local copy up and running follow these simple example steps.
 ### Prerequisites
 
 Your machine will require dotnot resources to execute our application, make sure you have at least version 3. If you need to to install these resources check [Dotnet Core 3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1)
-* npm
 ```sh
 dotnet --version
 ```
@@ -128,8 +127,8 @@ Contributions are what make the open source community such an amazing place to b
 <!-- CONTACT -->
 ## Contact
 
-Aaron Renner - [Github Profile](https://github.com/Aman7123/)
-Daniel Carson - [Github Profile](https://github.com/doit4dan/)
+* Aaron Renner - [Github Profile](https://github.com/Aman7123/)
+* Daniel Carson - [Github Profile](https://github.com/doit4dan/)
 
 Project Link: [https://github.com/Aman7123/Capstone-Portfolio-Binder](https://github.com/Aman7123/Capstone-Portfolio-Binder)
 
