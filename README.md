@@ -1,29 +1,3 @@
-<!-- PROJECT LOGO -->
-<!-- HEADER IMAGE
-<br />
-<p align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
-
-  <h3 align="center">Best-README-Template</h3>
-
-  <p align="center">
-    An awesome README template to jumpstart your projects!
-    <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
-  </p>
-</p>
--->
-
-
 <!-- TABLE OF CONTENTS -->
 <details open="open">
   <summary>Table of Contents</summary>
@@ -39,12 +13,10 @@
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
+        <li><a href="#docker">Docker</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
+    <li><a href="#api">API</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgements">Acknowledgements</a></li>
   </ol>
@@ -99,7 +71,7 @@ dotnet run BlazorApp1.csproj
 ```
 4. Navigate to your browser and access [localhost:5000](http://localhost:5000)
 
-### Using Docker
+### Docker
 
 If you are familiar with using Docker to run your project and it is installed on your machine I recommend using the build and run commands below.
 
@@ -115,7 +87,7 @@ docker run --detach --p 5000:5000 --name covid covid:1.0
 
 
 <!-- COVID Tracking Project -->
-## API Resources
+## API
 
 To build our Website we required obtaining data related to the Coronavirus Pandemic by utilizing [The COVID Tracking Project API](https://covidtracking.com/data/api), this API collects Coronavirus data from local state governments in the United States and reviews all the data to ensure it is valid.
 
@@ -148,8 +120,6 @@ GET https://api.covidtracking.com/v1/us/current.json
 }
 ```
 
-
-
 <!-- CONTACT -->
 ## Contact
 
@@ -158,8 +128,6 @@ GET https://api.covidtracking.com/v1/us/current.json
 
 Project Link: [https://github.com/Aman7123/Capstone-Portfolio-Binder](https://github.com/Aman7123/Capstone-Portfolio-Binder)
 
-
-
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 * [Dotnet Blazor App getting started](https://dotnet.microsoft.com/learn/aspnet/blazor-tutorial/intro)
@@ -167,20 +135,4 @@ Project Link: [https://github.com/Aman7123/Capstone-Portfolio-Binder](https://gi
 * [Docker getting started](https://docs.docker.com/get-started/)
 * [Shepherd University Department of Computer, Science and Mathematics](https://www.shepherd.edu/cme)
 
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-<!-- EXTRA RESOURCES FOR EXAMPLE
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
-[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
-[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/othneildrew
--->
  [product-screenshot]: images/App_US_Data.png

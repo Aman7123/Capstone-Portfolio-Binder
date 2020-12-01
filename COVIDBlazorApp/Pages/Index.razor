@@ -7,4 +7,153 @@
 
 <p>Interacting with RESTful APIs and returning COVID Statistics</p>
 
+<!-- TABLE OF CONTENTS -->
+<details open="open">
+    <summary>Table of Contents</summary>
+    <ol>
+        <li>
+
+            <a href="#about-the-project">About The Project</a>
+            <ul>
+                <li>
+                    <a href="#built-with">Built With</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+
+            <a href="#getting-started">Getting Started</a>
+            <ul>
+                <li>
+                    <a href="#prerequisites">Prerequisites</a>
+                </li>
+                <li>
+                    <a href="#installation">Installation</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#usage">Usage</a>
+        </li>
+        <li>
+            <a href="#roadmap">Roadmap</a>
+        </li>
+        <li>
+            <a href="#contributing">Contributing</a>
+        </li>
+        <li>
+            <a href="#license">License</a>
+        </li>
+        <li>
+            <a href="#contact">Contact</a>
+        </li>
+        <li>
+            <a href="#acknowledgements">Acknowledgements</a>
+        </li>
+    </ol>
+    <p>
+</details></p>
+
+<!-- ABOUT THE PROJECT -->
+<h2 id="about-the-project">About The Project</h2>
+<p><a href="https://covid.aaronrenner.com"><img src="images/App_US_Data.png" alt="Product Name Screen Shot" /></a></p>
+<p>This application has been created as an examples of creating connected software to inform people of the threat of the SARS-COV-2 virus across the United States. The basis and guidelines for this project application are provided from our Senior Capstone Project at <a href="https://goo.gl/maps/e3RNCSLP5NYajBwd7">Shepherd University, Shepherdstown, WV 25443</a>. We opted to use a Web Application using the frameworks provided by the Microsoft Dotnet core, this called a <a href="https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor">Blazor Web Application</a>.</p>
+<h3 id="built-with">Built With</h3>
+<ul>
+    <li><a href="https://covidtracking.com/data/api">COVID Tracking Project</a></li>
+    <li><a href="https://visualstudio.microsoft.com/vs/community/">Microsoft Visual Studio CE</a></li>
+    <li><a href="https://dotnet.microsoft.com/download/dotnet-core/3.1">Dotnet Core</a></li>
+    <li><a href="https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor">Blazor Web Application</a></li>
+    <li><a href="https://www.docker.com/">Docker</a></li>
+</ul>
+
+<!-- GETTING STARTED -->
+<h2 id="getting-started">Getting Started</h2>
+<p>This is an example of how you may give instructions on setting up your project locally. To get a local copy up and running follow these simple example steps.</p>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>Your machine will require dotnot resources to execute our application, make sure you have at least version 3. If you need to to install these resources check <a href="https://dotnet.microsoft.com/download/dotnet-core/3.1">Dotnet Core 3.1</a></p>
+<pre class="sh"><code>dotnet --version</code></pre>
+<h3 id="installation">Installation</h3>
+<ol style="list-style-type: decimal">
+    <li>
+        <p>Clone the repo</p>
+<pre class="sh"><code>git clone https://github.com/Aman7123/Capstone-Portfolio-Binder.git</code></pre>
+    </li>
+    <li>
+        <p>Frome the home directory, goto the project</p>
+<pre class="sh"><code>cd COVIDBlazorApp/</code></pre>
+    </li>
+    <li>
+        <p>If you have Dotnet installed you should be able to restore the project assets</p>
+<pre class="sh"><code>dotnet restore</code></pre>
+    </li>
+    <li>
+        <p>You can run this project on your local machine</p>
+<pre class="sh"><code>dotnet run BlazorApp1.csproj</code></pre>
+    </li>
+    <li><p>Navigate to your browser and access <a href="http://localhost:5000">localhost:5000</a></p></li>
+</ol>
+<h3 id="using-docker">Using Docker</h3>
+<p>If you are familiar with using Docker to run your project and it is installed on your machine I recommend using the build and run commands below.</p>
+<ol style="list-style-type: decimal">
+    <li>
+        <p>From the root Github repo folder run</p>
+<pre class="sh"><code>dotnet build --tag covid:1.0 .</code></pre>
+    </li>
+    <li>
+        <p>After your image is created you can execute the webserver on your local machine by running</p>
+<pre class="sh"><code>docker run --detach --p 5000:5000 --name covid covid:1.0</code></pre>
+    </li>
+    <li><p>Navigate to your browser and access <a href="http://localhost:5000">localhost:5000</a></p></li>
+</ol>
+
+<!-- COVID Tracking Project -->
+<h2 id="api-resources">API Resources</h2>
+<p>To build our Website we required obtaining data related to the Coronavirus Pandemic by utilizing <a href="https://covidtracking.com/data/api">The COVID Tracking Project API</a>, this API collects Coronavirus data from local state governments in the United States and reviews all the data to ensure it is valid.</p>
+<ul>
+    <li>
+        <p>For the Coronavirus statistics for the whole United States today use</p>
+<pre class="http"><code>GET https://api.covidtracking.com/v1/us/current.json</code></pre>
+<pre class="sourceCode json"><code class="sourceCode json">{
+        <span class="dt">&quot;date&quot;</span>: <span class="er">int</span>,
+        <span class="dt">&quot;states&quot;</span>: <span class="er">int</span>,
+        <span class="dt">&quot;positive&quot;</span>: <span class="er">int</span>,
+        <span class="dt">&quot;negative&quot;</span>: <span class="er">int</span>,
+        <span class="dt">&quot;pending&quot;</span>: <span class="er">int</span>,
+        <span class="dt">&quot;hospitalizedCurrently&quot;</span>: <span class="er">int</span>,
+        <span class="dt">&quot;hospitalizedCumulative&quot;</span>: <span class="er">int</span>,
+        <span class="dt">&quot;inIcuCurrently&quot;</span>: <span class="er">int</span>,
+        <span class="dt">&quot;inIcuCumulative&quot;</span>: <span class="er">int</span>,
+        <span class="dt">&quot;onVentilatorCurrently&quot;</span>: <span class="er">int</span>,
+        <span class="dt">&quot;onVentilatorCumulative&quot;</span>: <span class="er">int</span>,
+        <span class="dt">&quot;recovered&quot;</span>: <span class="er">int</span>,
+        <span class="dt">&quot;death&quot;</span>: <span class="er">int</span>,
+        <span class="dt">&quot;totalTestResults&quot;</span>: <span class="er">int</span>,
+        <span class="dt">&quot;deathIncrease&quot;</span>: <span class="er">int</span>,
+        <span class="dt">&quot;hospitalizedIncrease&quot;</span>: <span class="er">int</span>,
+        <span class="dt">&quot;negativeIncrease&quot;</span>: <span class="er">int</span>,
+        <span class="dt">&quot;positiveIncrease&quot;</span>: <span class="er">int</span>,
+        <span class="dt">&quot;totalTestResultsIncrease&quot;</span>: <span class="er">int</span>,
+        <span class="dt">&quot;hash&quot;</span>: <span class="er">string</span>
+}</code></pre>
+    </li>
+</ul>
+
+<!-- CONTACT -->
+<h2 id="contact">Contact</h2>
+<ul>
+    <li>Aaron Renner - <a href="https://github.com/Aman7123/">Github Profile</a></li>
+    <li>Daniel Carson - <a href="https://github.com/doit4dan/">Github Profile</a></li>
+</ul>
+<p>Project Link: <a href="https://github.com/Aman7123/Capstone-Portfolio-Binder">https://github.com/Aman7123/Capstone-Portfolio-Binder</a></p>
+
+<!-- ACKNOWLEDGEMENTS -->
+<h2 id="acknowledgements">Acknowledgements</h2>
+<ul>
+    <li><a href="https://dotnet.microsoft.com/learn/aspnet/blazor-tutorial/intro">Dotnet Blazor App getting started</a></li>
+    <li><a href="https://docs.microsoft.com/en-us/visualstudio/install/install-visual-studio?view=vs-2019">Visual Studio Community Edition 2019 getting started</a></li>
+    <li><a href="https://docs.docker.com/get-started/">Docker getting started</a></li>
+    <li><a href="https://www.shepherd.edu/cme">Shepherd University Department of Computer, Science and Mathematics</a></li>
+</ul>
+
 <WordFrame></WordFrame>
