@@ -1,7 +1,7 @@
 ﻿@using Syncfusion.Blazor.Grids
 
 @{
-    var Tool = (new List<string>() { "Search", "ExcelExport" });
+    var Tool = (new List<string>() { "ExcelExport" });
 }
 
 <SfGrid ID="Grid" @ref="Grid" DataSource="@US" AllowFiltering="true" AllowSorting="true" AllowExcelExport="true" Toolbar="@Tool" Height="500" Width="100%">
@@ -64,7 +64,7 @@
         if (args.Item.Id == "Grid_excelexport")
         {
             ExcelExportProperties ExcelProperties = new ExcelExportProperties();
-            ExcelProperties.FileName = "USHistoryData.xlsx";
+            ExcelProperties.FileName = "USHistoric.xlsx";
             this.Grid.ExcelExport(ExcelProperties);
         }
     }
